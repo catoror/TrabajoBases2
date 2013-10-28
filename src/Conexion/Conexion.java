@@ -27,7 +27,7 @@ public class Conexion {
             return;
         }
         try {
-            System.out.println("Seleccionando...");
+            System.out.println("James perra!!!!...");
             resultado = sentencia.executeQuery("SELECT codigo,nom,salario FROM empleado");
             //Se recorren las tuplas retornadas
             while (resultado.next()) {
