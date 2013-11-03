@@ -220,7 +220,7 @@ public class IngresarDatos extends javax.swing.JDialog {
 
     private void jButtonIdConjuntoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIdConjuntoActionPerformed
      float id;
-        //Me controla que solo me un guarde un idconj 
+        //Me controla que solo me un guarde un id de algun conjunto 
         try{
             
             id=Float.parseFloat(jTextId.getText());
