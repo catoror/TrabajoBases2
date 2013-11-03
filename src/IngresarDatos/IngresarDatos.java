@@ -150,11 +150,11 @@ public class IngresarDatos extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Debes ingesar un valor válido (entre 0 y 999)");
             }
         }
-
-        catch(NumberFormatException ex)
+                catch(NumberFormatException ex)
         {
             JOptionPane.showMessageDialog(this, "Ingresa por favor valores numéricos");
         }
+       
 
     }//GEN-LAST:event_jButtonGuardarActionPerformed
 
