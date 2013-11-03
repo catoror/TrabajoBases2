@@ -234,7 +234,7 @@ public class IngresarDatos extends javax.swing.JDialog {
         }
                 catch(NumberFormatException ex)
         {
-            JOptionPane.showMessageDialog(this, "Ingresa por favor valores numéricos");
+            JOptionPane.showMessageDialog(this, "Ingresa por favor valores numéricos positivos");
         }
        
        
