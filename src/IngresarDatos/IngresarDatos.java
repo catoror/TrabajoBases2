@@ -159,7 +159,7 @@ public class IngresarDatos extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonGuardarActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
-        // TODO add your handling code here:
+        setVisible(false);
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     public static void main(String args[]) {
