@@ -2,15 +2,17 @@
 package IngresarDatos;
 
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class IngresarDatos extends javax.swing.JDialog {
-
+private int contarClicks=0;
     public IngresarDatos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         jButtonGuardarCoordenada.setEnabled(false);
         jTextX.setEditable(false);
         jTextY.setEditable(false);
+        
         
     }
 
@@ -246,6 +248,8 @@ public class IngresarDatos extends javax.swing.JDialog {
 
     private void jButtonGuardarCoordenadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarCoordenadaActionPerformed
         float coorx, coory;
+        contarClicks++;
+       
         //Control de ingreso para los valores en los jtextfield para las coordenadas x y y
         try{
             
@@ -256,10 +260,30 @@ public class IngresarDatos extends javax.swing.JDialog {
             {
                 JOptionPane.showMessageDialog(this, "Debes ingesar un valor válido (entre 0 y 999)");
             }
-//            else{
-//             
-//            }
-        }
+            else
+            {//Poner los datos ingresados en la JTableCoordenadas, primero solo un dato
+                if(contarClicks<=1)
+                {
+                   jTableCoordenadas.setValueAt(coorx, 0, 0);
+                   jTableCoordenadas.setValueAt(coory, 0, 1);
+                }
+                //para más de un dato
+                else if(contarClicks<=4){
+                    
+                    jTableCoordenadas.setValueAt(coorx, contarClicks-1, 0);
+                    jTableCoordenadas.setValueAt(coory, contarClicks-1, 1);
+                }
+                //Se agrega dinámicamente despupués de 4 puntos
+                else if(contarClicks>4)
+                    {
+                    DefaultTableModel tableModel1 = (DefaultTableModel) jTableCoordenadas.getModel();
+                    tableModel1.addRow(new Object[] {coorx, coory});
+                    }                  
+                }
+                
+                          
+            }
+        
                 catch(NumberFormatException ex)
         {
             JOptionPane.showMessageDialog(this, "Ingresa por favor valores numéricos");
