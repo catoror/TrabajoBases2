@@ -261,7 +261,7 @@ private int contarClicks=0;
                 JOptionPane.showMessageDialog(this, "Debes ingesar un valor válido (entre 0 y 999)");
             }
             else
-            {//Poner los datos ingresados en la JTableCoordenadas, primero solo un dato
+            {//Poner los datos ingresados en la JTableCoordenadas, primero solo un dato :)
                 if(contarClicks<=1)
                 {
                    jTableCoordenadas.setValueAt(coorx, 0, 0);
