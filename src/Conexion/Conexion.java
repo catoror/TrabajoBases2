@@ -4,13 +4,14 @@ package Conexion;
  *
  */
 import java.sql.*;
+import Punto.*;
 
 public class Conexion {
 
     Connection conn;
     Statement sentencia;
     ResultSet resultado;
-    
+    Punto coordenada[];
     public void conectar()
     {
         System.out.println("Conexión a la base de datos...");
@@ -63,8 +64,48 @@ public class Conexion {
         }
         System.out.println("Consulta finalizada.");        
     }
+
+    public void selectCoordenada(int id)
+    {
+        conectar();
+        float x;
+        float y;
+        int i = -1;
+        ResultSet tamano;
+        try {
+            System.out.println("Ola k ase!!!!!...");
+            
+            tamano = sentencia.executeQuery("select count(t2.x) as c  from conjuntopuntos t, TABLE(t.mis_puntos) t2 WHERE id_conj = " + id);
+            tamano.next();
+            coordenada = new Punto[tamano.getInt("c")];
+            System.out.println(coordenada.length);
+            
+            resultado = sentencia.executeQuery("select t2.x, t2.y from conjuntopuntos t, TABLE(t.mis_puntos) t2 WHERE id_conj = " + id);
+            
+            System.out.println("X\tY");
+            while (resultado.next()) 
+            {
+                x = resultado.getInt("x");
+                y = resultado.getInt("y");
+                coordenada[++i] = new Punto(x, y);
+                System.out.println(coordenada[i].x + "\t" + coordenada[i].y);
+            }
+            
+            //Se recorren las tuplas retornadas
+
+            conn.close(); //Cierre de la conexión
+        } catch (SQLException e) {
+            System.out.println("Error: "+ e.getMessage());
+        }
+        System.out.println("Consulta finalizada.");        
+    }
     
-/*    static public void main(String[] args) 
+    public Punto[] getPoint()
+    {
+        return coordenada;
+    }
+    
+    static public void main(String[] args) 
     {
         /*Connection conn;
         Statement sentencia;
@@ -96,9 +137,9 @@ public class Conexion {
         } catch (SQLException e) {
             System.out.println("Error: "+ e.getMessage());
         }
-        System.out.println("Consulta finalizada.");
+        System.out.println("Consulta finalizada.");*/
         Conexion con = new Conexion();
-        con.insertarID(7);
-        con.insertarCoordenada(7,1,2);
-    } //Fin del main*/
+        
+        con.selectCoordenada(1);
+    } //Fin del main
 }
