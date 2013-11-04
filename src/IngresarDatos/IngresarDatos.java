@@ -143,11 +143,11 @@ private int contarClicks=0;
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonIdConjuntoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIdConjuntoActionPerformed
-     float id;
+     int  id;
         //Me controla que solo me un guarde un id de algun conjunto 
         try{
             
-            id=Float.parseFloat(jTextId.getText());
+            id=Integer.parseInt(jTextId.getText());
            if(jTextId.getText().isEmpty()== false)
            {
                 jTextId.setEditable(false);
