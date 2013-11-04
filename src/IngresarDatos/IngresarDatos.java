@@ -273,7 +273,7 @@ private int contarClicks=0;
                     jTableCoordenadas.setValueAt(coorx, contarClicks-1, 0);
                     jTableCoordenadas.setValueAt(coory, contarClicks-1, 1);
                 }
-                //Se agrega dinámicamente despupués de 4 puntos
+                //Se agrega dinámicamente despupués de 4 puntos, igual si quieren lo puedo cambiar pa q solo se agrege dinámicamente y ahorrarme
                 else if(contarClicks>4)
                     {
                     DefaultTableModel tableModel1 = (DefaultTableModel) jTableCoordenadas.getModel();
