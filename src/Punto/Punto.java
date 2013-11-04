@@ -6,26 +6,31 @@
 
 package Punto;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Carlos
  */
 public class Punto implements Comparable<Punto> 
 {
+    ArrayList<Punto> al;
     public float x;
     public float y;
 
-    public Punto(float x, float y) {
+
+    public Punto(float x, float y) 
+    {
         this.x = x;
         this.y = y;
     }
     
     @Override
-    public int compareTo(Punto o) {
-        if (this.x == o.x) {
-            return Float.compare(this.y, o.y);
-        }
-        return Float.compare(this.x, o.x);
+    public int compareTo(Punto o) 
+    {
+        float dist1 = distancia(new Punto(this.x, this.y));
+        float dist2 = distancia(o);
+        return Float.compare(dist1, dist2);
     }
 
     public float distancia(Punto a) 
