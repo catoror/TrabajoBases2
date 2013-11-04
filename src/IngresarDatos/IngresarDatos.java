@@ -71,7 +71,7 @@ private int contarClicks=0;
         });
         jPanel2.add(jButtonIdConjunto, new org.netbeans.lib.awtextra.AbsoluteConstraints(67, 68, -1, -1));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -9, 219, 100));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -19, 219, 110));
 
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
