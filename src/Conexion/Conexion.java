@@ -35,9 +35,21 @@ public class Conexion {
         conectar();
         try {
             System.out.println("Ola k ase????...");
-            resultado = sentencia.executeQuery("insert into conjuntopuntos values("+ id + ",nest_puntos())");
-                        
-            resultado = sentencia.executeQuery("commit");
+            
+            int c=0;
+            
+            resultado = sentencia.executeQuery("select count(*) as c from conjuntopuntos where id_conj = " + id);
+            
+            resultado.next();
+            
+            c = resultado.getInt("c");
+            
+            if(c==0)
+            {
+                resultado = sentencia.executeQuery("insert into conjuntopuntos values("+ id + ",nest_puntos())");
+                resultado = sentencia.executeQuery("commit");
+            }
+            
             //Se recorren las tuplas retornadas
 
             conn.close(); //Cierre de la conexión
@@ -85,8 +97,8 @@ public class Conexion {
             System.out.println("X\tY");
             while (resultado.next()) 
             {
-                x = resultado.getInt("x");
-                y = resultado.getInt("y");
+                x = resultado.getFloat("x");
+                y = resultado.getFloat("y");
                 coordenada[++i] = new Punto(x, y);
                 System.out.println(coordenada[i].x + "\t" + coordenada[i].y);
             }
