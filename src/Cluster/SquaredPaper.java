@@ -22,8 +22,9 @@ import java.util.HashSet;
  
 public class SquaredPaper extends JFrame 
 {
- public  void paint(JScrollPane pnl) 
+ public  void paint(JPanel pnl) 
  {
+     
    Graphics g=pnl.getGraphics();
      
    g.fillRect(0, 0, pnl.getWidth(), pnl.getHeight());

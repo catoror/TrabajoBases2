@@ -3,6 +3,7 @@ package Cluster;
 import javax.swing.JOptionPane;
 import java.awt.Component;
 import javax.swing.JScrollPane;
+import javax.swing.JViewport;
 
 public class Cluster extends javax.swing.JDialog {
 
@@ -39,8 +40,8 @@ public class Cluster extends javax.swing.JDialog {
         jButtonGenerar = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jButtonCancelar = new javax.swing.JButton();
-        jPanelGrafica = new javax.swing.JPanel();
         jScrollPaneGrafica = new javax.swing.JScrollPane();
+        jPanelGrafica = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -137,10 +138,24 @@ public class Cluster extends javax.swing.JDialog {
 
         getContentPane().add(jPanelBotones, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 500, 800, -1));
 
-        jPanelGrafica.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanelGrafica.add(jScrollPaneGrafica, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 480, 480));
+        jScrollPaneGrafica.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jScrollPaneGrafica.setToolTipText("");
+        jScrollPaneGrafica.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPaneGrafica.setMaximumSize(new java.awt.Dimension(490, 490));
+        jScrollPaneGrafica.setMinimumSize(new java.awt.Dimension(490, 490));
+        jScrollPaneGrafica.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                jScrollPaneGraficaMouseWheelMoved(evt);
+            }
+        });
 
-        getContentPane().add(jPanelGrafica, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, 490, 490));
+        jPanelGrafica.setAutoscrolls(true);
+        jPanelGrafica.setMinimumSize(new java.awt.Dimension(9000, 9000));
+        jPanelGrafica.setPreferredSize(new java.awt.Dimension(9000, 9000));
+        jPanelGrafica.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jScrollPaneGrafica.setViewportView(jPanelGrafica);
+
+        getContentPane().add(jScrollPaneGrafica, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, 490, 490));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -170,9 +185,12 @@ public class Cluster extends javax.swing.JDialog {
 //       jScrollPaneGrafica.createVerticalScrollBar().setEnabled(true);
 //       jScrollPaneGrafica.setVisible(true);
        //jScrollPaneGrafica.setHorizontalScrollBar(null);
+        
+        jScrollPaneGrafica.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
+        
        SquaredPaper DrawWindow = new SquaredPaper();
-       DrawWindow.paint(jScrollPaneGrafica);
-      
+       DrawWindow.paint(jPanelGrafica);
+       
     }//GEN-LAST:event_jButtonGenerarActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
@@ -263,6 +281,10 @@ public class Cluster extends javax.swing.JDialog {
     private void jTextFieldValorUmbralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldValorUmbralActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldValorUmbralActionPerformed
+
+    private void jScrollPaneGraficaMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jScrollPaneGraficaMouseWheelMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jScrollPaneGraficaMouseWheelMoved
 
     public void agegarTododosComponentes() {
         jComboBoxCondicionParada.addItem("Alcanza número de clusters especificados");
