@@ -25,6 +25,14 @@ public class Punto implements Comparable<Punto>
         this.y = y;
     }
     
+    public float getX(){
+        return  this.x;
+    }
+    
+    public float getY(){
+        return  this.y;
+    }
+    
     @Override
     public int compareTo(Punto o) 
     {

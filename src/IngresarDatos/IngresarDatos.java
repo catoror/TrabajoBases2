@@ -3,15 +3,22 @@ package IngresarDatos;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import Conexion.Conexion;
+import Punto.Punto;
 
 public class IngresarDatos extends javax.swing.JDialog {
-private int contarClicks=0;
+    public int id;
+    public float coorx, coory;
+    DefaultTableModel tableModel1;
     public IngresarDatos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         jButtonGuardarCoordenada.setEnabled(false);
         jTextX.setEditable(false);
         jTextY.setEditable(false);
+        jTableCoordenadas.removeAll();
+        tableModel1 = (DefaultTableModel) jTableCoordenadas.getModel();
+        
         
         
     }
@@ -103,10 +110,7 @@ private int contarClicks=0;
 
         jTableCoordenadas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Coordenada x", "Coordenada y"
@@ -135,7 +139,26 @@ private int contarClicks=0;
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
-       //Se debe llamar la funcion de inserccion (Carlos)
+       Conexion conn = new Conexion();
+//        conn.insertarCoordenada(id, coorx, coory);
+       jTableCoordenadas.getColumnName(0);
+    
+       int b=jTableCoordenadas.getRowCount();
+       Punto[] arrayPuntos=new Punto[b];
+       Conexion con= new Conexion();
+       con.insertarID(id);
+      for(int i=0; i<b;i++)
+      {      
+             
+             float puntoX=Float.parseFloat(jTableCoordenadas.getModel().getValueAt(i, 0).toString());
+             float puntoY=Float.parseFloat(jTableCoordenadas.getModel().getValueAt(i, 1).toString());
+             arrayPuntos[i] = new Punto(puntoX, puntoY);
+             con.insertarCoordenada(id, puntoX, puntoY);
+             System.out.println(arrayPuntos[i].x+" "+arrayPuntos[i].y);
+      }
+     
+       tableModel1.setRowCount(0);
+                   
     }//GEN-LAST:event_jButtonGuardarActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
@@ -143,7 +166,7 @@ private int contarClicks=0;
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonIdConjuntoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIdConjuntoActionPerformed
-     int  id;
+    
         //Me controla que solo me un guarde un id de algun conjunto 
         try{
             
@@ -169,9 +192,9 @@ private int contarClicks=0;
     }//GEN-LAST:event_jTextXActionPerformed
 
     private void jButtonGuardarCoordenadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarCoordenadaActionPerformed
-        float coorx, coory;
-        contarClicks++;
-       
+        
+        if(!jTextX.getText().isEmpty())
+        {
         //Control de ingreso para los valores en los jtextfield para las coordenadas x y y
         try{
             
@@ -184,33 +207,26 @@ private int contarClicks=0;
             }
             else
             {//Poner los datos ingresados en la JTableCoordenadas, primero solo un dato :)
-                if(contarClicks<=1)
-                {
-                   jTableCoordenadas.setValueAt(coorx, 0, 0);
-                   jTableCoordenadas.setValueAt(coory, 0, 1);
-                }
-                //para más de un dato
-                else if(contarClicks<=4){
-                    
-                    jTableCoordenadas.setValueAt(coorx, contarClicks-1, 0);
-                    jTableCoordenadas.setValueAt(coory, contarClicks-1, 1);
-                }
-                //Se agrega dinámicamente después de 4 puntos, igual si quieren lo puedo cambiar pa q solo se agrege dinámicamente y ahorrarme
-                else if(contarClicks>4)
-                    {
-                    DefaultTableModel tableModel1 = (DefaultTableModel) jTableCoordenadas.getModel();
+                
+                 
                     tableModel1.addRow(new Object[] {coorx, coory});
-                    }                  
-                }
+                   
+             }
                 
                           
             }
         
                 catch(NumberFormatException ex)
+                {
+                    JOptionPane.showMessageDialog(this, "Ingresa por favor valores numéricos");
+                }
+                jTextX.setText("");
+                jTextY.setText("");
+       }
+        else
         {
-            JOptionPane.showMessageDialog(this, "Ingresa por favor valores numéricos");
+            JOptionPane.showMessageDialog(this, "Ingresa un valor por favor");
         }
-       
     }//GEN-LAST:event_jButtonGuardarCoordenadaActionPerformed
 
     public static void main(String args[]) {
