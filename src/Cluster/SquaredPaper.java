@@ -24,9 +24,10 @@ public class SquaredPaper extends JFrame
 {
  public  void paint(JPanel pnl) 
  {
-     
+    
    Graphics g=pnl.getGraphics();
-     
+    
+    
    g.fillRect(0, 0, pnl.getWidth(), pnl.getHeight());
    Dimension d = pnl.getSize();
    int x = d.width;
@@ -94,6 +95,7 @@ public class SquaredPaper extends JFrame
         
         g.fillOval(x1,y1,10,10);
 
+        super.paintComponents(g);
 /*        g.drawOval(resultado.getInt("a"),
         resultado.getInt("b"),
         resultado.getInt("c"),

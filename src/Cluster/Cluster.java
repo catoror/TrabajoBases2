@@ -2,6 +2,7 @@ package Cluster;
 
 import javax.swing.JOptionPane;
 import java.awt.Component;
+import java.awt.*;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
@@ -141,11 +142,22 @@ public class Cluster extends javax.swing.JDialog {
         jScrollPaneGrafica.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPaneGrafica.setToolTipText("");
         jScrollPaneGrafica.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPaneGrafica.setAutoscrolls(true);
         jScrollPaneGrafica.setMaximumSize(new java.awt.Dimension(490, 490));
         jScrollPaneGrafica.setMinimumSize(new java.awt.Dimension(490, 490));
         jScrollPaneGrafica.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
             public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
                 jScrollPaneGraficaMouseWheelMoved(evt);
+            }
+        });
+        jScrollPaneGrafica.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jScrollPaneGraficaMouseDragged(evt);
+            }
+        });
+        jScrollPaneGrafica.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jScrollPaneGraficaPropertyChange(evt);
             }
         });
 
@@ -186,10 +198,14 @@ public class Cluster extends javax.swing.JDialog {
 //       jScrollPaneGrafica.setVisible(true);
        //jScrollPaneGrafica.setHorizontalScrollBar(null);
         
-        jScrollPaneGrafica.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-        
+        //jScrollPaneGrafica.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
+         jScrollPaneGrafica.setPreferredSize(new Dimension(490,490));
+        jScrollPaneGrafica.getVerticalScrollBar().setValue(9000);
        SquaredPaper DrawWindow = new SquaredPaper();
        DrawWindow.paint(jPanelGrafica);
+       Graphics g = jPanelGrafica.getGraphics();
+       DrawWindow.paintComponents(g);
+       jScrollPaneGrafica.paintComponents(g);
        
     }//GEN-LAST:event_jButtonGenerarActionPerformed
 
@@ -284,7 +300,21 @@ public class Cluster extends javax.swing.JDialog {
 
     private void jScrollPaneGraficaMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jScrollPaneGraficaMouseWheelMoved
         // TODO add your handling code here:
+       SquaredPaper DrawWindow = new SquaredPaper();
+       DrawWindow.paint(jPanelGrafica);
     }//GEN-LAST:event_jScrollPaneGraficaMouseWheelMoved
+
+    private void jScrollPaneGraficaMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPaneGraficaMouseDragged
+        // TODO add your handling code here:
+       SquaredPaper DrawWindow = new SquaredPaper();
+       DrawWindow.paint(jPanelGrafica);
+    }//GEN-LAST:event_jScrollPaneGraficaMouseDragged
+
+    private void jScrollPaneGraficaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jScrollPaneGraficaPropertyChange
+        // TODO add your handling code here:
+       SquaredPaper DrawWindow = new SquaredPaper();
+       DrawWindow.paint(jPanelGrafica);        
+    }//GEN-LAST:event_jScrollPaneGraficaPropertyChange
 
     public void agegarTododosComponentes() {
         jComboBoxCondicionParada.addItem("Alcanza número de clusters especificados");
