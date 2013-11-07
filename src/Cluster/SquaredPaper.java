@@ -94,6 +94,7 @@ public class SquaredPaper extends JFrame
            y1 = y - (resultado.getInt("y")*10+30);
            ymin = y1;
            ymax = y1;
+           g.fillOval(x1,y1,10,10);
            while (resultado.next())
            {
 
