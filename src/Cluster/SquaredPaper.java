@@ -83,7 +83,7 @@ public class SquaredPaper extends JFrame
          try 
          {
            //Se recorren las tuplas retornadas
-           resultado = sentencia.executeQuery("select t2.x, t2.y from conjuntopuntos t, TABLE(t.mis_puntos) t2 WHERE id_conj = 1");
+           resultado = sentencia.executeQuery("select t2.x, t2.y from conjuntopuntos t, TABLE(t.mis_puntos) t2 WHERE id_conj = 8");
            int x1;
            int y1;
            int xmax, ymax;
