@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package squaredpaper;
+package Cluster;
 
 /**
  *
@@ -16,6 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseListener;
 import java.sql.*;
+import java.util.Random;
 
 public class SquaredPaper_1_1 extends JPanel {
 
@@ -130,9 +131,16 @@ class PanelPrincipal_1 extends JPanel {
            resultado = sentencia.executeQuery("select deref(id_dibujo).id_dibujo as id_dibujo, id_cluster, c2.x, c2.y, xmin, xmax, ymin, ymax, deref(id_dibujo).id_conj as id_conj, deref(id_dibujo).cond_generacion as cond_generacion, deref(id_dibujo).cond_parada as cond_parada from clusters c, TABLE(c.puntos_cluster) c2 where deref(id_dibujo).id_dibujo=1");
            int id_dibujo, id_cluster, cx, cy, cxmin, cxmax, cymin, cymax, id_conj;
            String cond_generacion, cond_parada;
+                      
+           Random random = new Random();
+           float red = random.nextFloat();
+           float green = random.nextFloat();
+           float blue = random.nextFloat();
+           Color col = new Color(red,green,blue);
            
            while (resultado.next())
            {
+                g.setColor(Color.BLUE);
                 id_dibujo = resultado.getInt("id_dibujo");
                 cond_generacion = resultado.getString("cond_generacion");
                 cond_parada = resultado.getString("cond_parada");
@@ -150,6 +158,11 @@ class PanelPrincipal_1 extends JPanel {
                 System.out.println("ymin: " + cymin);
                 System.out.println("ymax: " + cymax);
                 System.out.println("ymax - ymin + 10: " + (cymax - cymin+10));
+                red = random.nextFloat();
+                green = random.nextFloat();
+                blue = random.nextFloat();
+                col = new Color(red,green,blue);
+                g.setColor(col);
                 g.drawRect(cxmin, cymin, (cxmax - cxmin+10), (cymax-cymin+10));
              //super.paintComponents(g);
      /*        g.drawOval(resultado.getInt("a"),
