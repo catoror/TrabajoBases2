@@ -275,7 +275,6 @@ public class Cluster extends javax.swing.JDialog {
             {   Graficar DrawWindow = new Graficar();
                 DrawWindow.paint(jPanelGrafica);
             }
-    //pq dice eso?
     }//GEN-LAST:event_jButtonGenerarActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
