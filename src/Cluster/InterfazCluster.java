@@ -18,8 +18,6 @@ public class InterfazCluster extends javax.swing.JDialog {
     public ArrayList<Punto> al;
     public Cluster c, cMenor;
     public float[] xmin, ymin, xmax, ymax;
-    
-    
 
     public InterfazCluster(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -198,20 +196,20 @@ public class InterfazCluster extends javax.swing.JDialog {
                                 jScrollPaneGrafica.getVerticalScrollBar().setEnabled(true);
                                 jScrollPaneGrafica.getHorizontalScrollBar().setEnabled(true);
                                 jScrollPaneGrafica.getVerticalScrollBar().setValue(9990);
-                                
+
                                 ccon.selectCoordenada(idConjunto);
                                 PuntosB = ccon.getCoordenada();
 
                                 // Converion del vector de Puntos al vector de Clusters
                                 C = puntosAClusters(PuntosB);
-                                if(jComboBoxCondicionGeneracion.getSelectedIndex() == 0){
-                                    
-                                }else if(jComboBoxCondicionGeneracion.getSelectedIndex() == 1){
-                                    
-                                }else if(jComboBoxCondicionGeneracion.getSelectedIndex() == 2){
-                                    
-                                }else if(jComboBoxCondicionGeneracion.getSelectedIndex() == 3){
-                                    
+                                if (jComboBoxCondicionGeneracion.getSelectedIndex() == 0) {
+                                    puntoCercanoUmbral(umbral);
+                                } else if (jComboBoxCondicionGeneracion.getSelectedIndex() == 1) {
+                                    porPromedioUmbral(umbral);
+                                } else if (jComboBoxCondicionGeneracion.getSelectedIndex() == 2) {
+                                    porRadioUmbral(umbral);
+                                } else if (jComboBoxCondicionGeneracion.getSelectedIndex() == 3) {
+                                    porDiametroUmbral(umbral);
                                 }
 
 
@@ -238,29 +236,29 @@ public class InterfazCluster extends javax.swing.JDialog {
                                 jScrollPaneGrafica.getVerticalScrollBar().setEnabled(true);
                                 jScrollPaneGrafica.getHorizontalScrollBar().setEnabled(true);
                                 jScrollPaneGrafica.getVerticalScrollBar().setValue(9990);
-                                
+
                                 ccon.selectCoordenada(idConjunto);
                                 PuntosB = ccon.getCoordenada();
 
                                 // Converion del vector de Puntos al vector de Clusters
                                 C = puntosAClusters(PuntosB);
-                                
-                                if(jComboBoxCondicionGeneracion.getSelectedIndex() == 0){
+
+                                if (jComboBoxCondicionGeneracion.getSelectedIndex() == 0) {
                                     puntoCercanoKclusters(ncluster);
-                                }else if(jComboBoxCondicionGeneracion.getSelectedIndex() == 1){
+                                } else if (jComboBoxCondicionGeneracion.getSelectedIndex() == 1) {
                                     porPromedioKclusters(ncluster);
-                                }else if(jComboBoxCondicionGeneracion.getSelectedIndex() == 2){
+                                } else if (jComboBoxCondicionGeneracion.getSelectedIndex() == 2) {
                                     porRadioKclusters(ncluster);
-                                }else if(jComboBoxCondicionGeneracion.getSelectedIndex() == 3){
+                                } else if (jComboBoxCondicionGeneracion.getSelectedIndex() == 3) {
                                     porDiametroKclusters(ncluster);
                                 }
-                                
+
                                 xmin = new float[C.size()];
                                 ymin = new float[C.size()];
                                 xmax = new float[C.size()];
                                 ymax = new float[C.size()];
-                                
-                                
+
+
                                 //SquaredPaper DrawWindow = new SquaredPaper();
                                 //DrawWindow.paint(jPanelGrafica);
                             }
@@ -355,117 +353,129 @@ public class InterfazCluster extends javax.swing.JDialog {
 
     public void puntoCercanoUmbral(float umbral) {
         // Iteracion Inicial donde se realizan el todo contra todos
-        pq = new PriorityQueue<Cluster>();
-        for (int i = 0; i < C.size(); i++) {
-            for (int k = i + 1; k < C.size(); k++) {
-                p1 = C.get(i).centroide;
-                p2 = C.get(k).centroide;
-                al = new ArrayList<Punto>();
+        while (C.size() > 1) {
+            pq = new PriorityQueue<Cluster>();
+            for (int i = 0; i < C.size(); i++) {
+                for (int k = i + 1; k < C.size(); k++) {
+                    p1 = C.get(i).centroide;
+                    p2 = C.get(k).centroide;
+                    al = new ArrayList<Punto>();
 
-                al.addAll(C.get(i).listaP);
-                al.addAll(C.get(k).listaP);
+                    al.addAll(C.get(i).listaP);
+                    al.addAll(C.get(k).listaP);
 
-                dist = p1.distancia(p2);
-                cent = new Punto((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
-                c = new Cluster(cent, dist, al); // cambiar constructor
-                pq.add(c);
+                    dist = p1.distancia(p2);
+                    cent = new Punto((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+                    c = new Cluster(cent, dist, al); // cambiar constructor
+                    pq.add(c);
+                }
             }
+            // Saco el cluster menor
+            cMenor = pq.poll();
+            if (cMenor.condicionGeneracion > umbral) {
+                break;
+            }
+            // Eliminar los cluster que se unieron a cluster menor
+            removercluster(cMenor.listaP);
+
+            // Agrego cMenor al arraylist de clusters
+            C.add(cMenor);
         }
-        // Saco el cluster menor
-        cMenor = pq.poll();
-
-        // Eliminar los cluster que se unieron a cluster menor
-        removercluster(cMenor.listaP);
-
-        // Agrego cMenor al arraylist de clusters
-        C.add(cMenor);
-
     }
 
     public void porRadioUmbral(float umbral) {
-        // Iteracion Inicial donde se realizan el todo contra todos
-        pq = new PriorityQueue<Cluster>();
-        for (int i = 0; i < C.size(); i++) {
-            for (int k = i + 1; k < C.size(); k++) {
-                p1 = C.get(i).centroide;
-                p2 = C.get(k).centroide;
-                al = new ArrayList<Punto>();
+        while (C.size() > 1) {
+            // Iteracion Inicial donde se realizan el todo contra todos
+            pq = new PriorityQueue<Cluster>();
+            for (int i = 0; i < C.size(); i++) {
+                for (int k = i + 1; k < C.size(); k++) {
+                    p1 = C.get(i).centroide;
+                    p2 = C.get(k).centroide;
+                    al = new ArrayList<Punto>();
 
-                al.addAll(C.get(i).listaP);
-                al.addAll(C.get(k).listaP);
+                    al.addAll(C.get(i).listaP);
+                    al.addAll(C.get(k).listaP);
 
-                cent = new Punto((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
-                c = new Cluster(cent, al); // cambiar constructor
-                c.maxRadio();
-                pq.add(c);
+                    cent = new Punto((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+                    c = new Cluster(cent, al); // cambiar constructor
+                    c.maxRadio();
+                    pq.add(c);
+                }
             }
+            // Saco el cluster menor
+            cMenor = pq.poll();
+            if (cMenor.condicionGeneracion > umbral) {
+                break;
+            }
+            // Eliminar los cluster que se unieron a cluster menor
+            removercluster(cMenor.listaP);
+
+            // Agrego cMenor al arraylist de clusters
+            C.add(cMenor);
         }
-        // Saco el cluster menor
-        cMenor = pq.poll();
-
-        // Eliminar los cluster que se unieron a cluster menor
-        removercluster(cMenor.listaP);
-
-        // Agrego cMenor al arraylist de clusters
-        C.add(cMenor);
-
     }
 
     public void porDiametroUmbral(float umbral) {
-        // Iteracion Inicial donde se realizan el todo contra todos
-        pq = new PriorityQueue<Cluster>();
-        for (int i = 0; i < C.size(); i++) {
-            for (int k = i + 1; k < C.size(); k++) {
-                p1 = C.get(i).centroide;
-                p2 = C.get(k).centroide;
-                al = new ArrayList<Punto>();
+        while (C.size() > 1) {
+            // Iteracion Inicial donde se realizan el todo contra todos
+            pq = new PriorityQueue<Cluster>();
+            for (int i = 0; i < C.size(); i++) {
+                for (int k = i + 1; k < C.size(); k++) {
+                    p1 = C.get(i).centroide;
+                    p2 = C.get(k).centroide;
+                    al = new ArrayList<Punto>();
 
-                al.addAll(C.get(i).listaP);
-                al.addAll(C.get(k).listaP);
-                cent = new Punto((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
-                c = new Cluster(cent, al); // cambiar constructor
-                c.maxDiametro();
-                pq.add(c);
+                    al.addAll(C.get(i).listaP);
+                    al.addAll(C.get(k).listaP);
+                    cent = new Punto((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+                    c = new Cluster(cent, al); // cambiar constructor
+                    c.maxDiametro();
+                    pq.add(c);
+                }
             }
+            // Saco el cluster menor
+            cMenor = pq.poll();
+            if (cMenor.condicionGeneracion > umbral) {
+                break;
+            }
+            // Eliminar los cluster que se unieron a cluster menor
+            removercluster(cMenor.listaP);
+
+            // Agrego cMenor al arraylist de clusters
+            C.add(cMenor);
         }
-        // Saco el cluster menor
-        cMenor = pq.poll();
-
-        // Eliminar los cluster que se unieron a cluster menor
-        removercluster(cMenor.listaP);
-
-        // Agrego cMenor al arraylist de clusters
-        C.add(cMenor);
-
     }
 
     public void porPromedioUmbral(float umbral) {
-        // Iteracion Inicial donde se realizan el todo contra todos
-        pq = new PriorityQueue<Cluster>();
-        for (int i = 0; i < C.size(); i++) {
-            for (int k = i + 1; k < C.size(); k++) {
-                p1 = C.get(i).centroide;
-                p2 = C.get(k).centroide;
-                al = new ArrayList<Punto>();
+        while (C.size() > 1) {
+            // Iteracion Inicial donde se realizan el todo contra todos
+            pq = new PriorityQueue<Cluster>();
+            for (int i = 0; i < C.size(); i++) {
+                for (int k = i + 1; k < C.size(); k++) {
+                    p1 = C.get(i).centroide;
+                    p2 = C.get(k).centroide;
+                    al = new ArrayList<Punto>();
 
-                al.addAll(C.get(i).listaP);
-                al.addAll(C.get(k).listaP);
+                    al.addAll(C.get(i).listaP);
+                    al.addAll(C.get(k).listaP);
 
-                cent = new Punto((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
-                c = new Cluster(cent, al); // cambiar constructor
-                c.promedio();
-                pq.add(c);
+                    cent = new Punto((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+                    c = new Cluster(cent, al); // cambiar constructor
+                    c.promedio();
+                    pq.add(c);
+                }
             }
+            // Saco el cluster menor
+            cMenor = pq.poll();
+            if (cMenor.condicionGeneracion > umbral) {
+                break;
+            }
+            // Eliminar los cluster que se unieron a cluster menor
+            removercluster(cMenor.listaP);
+
+            // Agrego cMenor al arraylist de clusters
+            C.add(cMenor);
         }
-        // Saco el cluster menor
-        cMenor = pq.poll();
-
-        // Eliminar los cluster que se unieron a cluster menor
-        removercluster(cMenor.listaP);
-
-        // Agrego cMenor al arraylist de clusters
-        C.add(cMenor);
-
     }
 
     public void puntoCercanoKclusters(int kc) {
@@ -503,30 +513,30 @@ public class InterfazCluster extends javax.swing.JDialog {
         kc++;
         // Iteracion Inicial donde se realizan el todo contra todos
         while (C.size() > kc) {
-        pq = new PriorityQueue<Cluster>();
-        for (int i = 0; i < C.size(); i++) {
-            for (int k = i + 1; k < C.size(); k++) {
-                p1 = C.get(i).centroide;
-                p2 = C.get(k).centroide;
-                al = new ArrayList<Punto>();
+            pq = new PriorityQueue<Cluster>();
+            for (int i = 0; i < C.size(); i++) {
+                for (int k = i + 1; k < C.size(); k++) {
+                    p1 = C.get(i).centroide;
+                    p2 = C.get(k).centroide;
+                    al = new ArrayList<Punto>();
 
-                al.addAll(C.get(i).listaP);
-                al.addAll(C.get(k).listaP);
+                    al.addAll(C.get(i).listaP);
+                    al.addAll(C.get(k).listaP);
 
-                cent = new Punto((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
-                c = new Cluster(cent, al); // cambiar constructor
-                c.maxRadio();
-                pq.add(c);
+                    cent = new Punto((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+                    c = new Cluster(cent, al); // cambiar constructor
+                    c.maxRadio();
+                    pq.add(c);
+                }
             }
-        }
-        // Saco el cluster menor
-        cMenor = pq.poll();
+            // Saco el cluster menor
+            cMenor = pq.poll();
 
-        // Eliminar los cluster que se unieron a cluster menor
-        removercluster(cMenor.listaP);
+            // Eliminar los cluster que se unieron a cluster menor
+            removercluster(cMenor.listaP);
 
-        // Agrego cMenor al arraylist de clusters
-        C.add(cMenor);
+            // Agrego cMenor al arraylist de clusters
+            C.add(cMenor);
         }
     }
 
@@ -534,28 +544,28 @@ public class InterfazCluster extends javax.swing.JDialog {
         kc++;
         // Iteracion Inicial donde se realizan el todo contra todos
         while (C.size() > kc) {
-        for (int i = 0; i < C.size(); i++) {
-            for (int k = i + 1; k < C.size(); k++) {
-                p1 = C.get(i).centroide;
-                p2 = C.get(k).centroide;
-                al = new ArrayList<Punto>();
+            for (int i = 0; i < C.size(); i++) {
+                for (int k = i + 1; k < C.size(); k++) {
+                    p1 = C.get(i).centroide;
+                    p2 = C.get(k).centroide;
+                    al = new ArrayList<Punto>();
 
-                al.addAll(C.get(i).listaP);
-                al.addAll(C.get(k).listaP);
-                cent = new Punto((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
-                c = new Cluster(cent, al); // cambiar constructor
-                c.maxDiametro();
-                pq.add(c);
+                    al.addAll(C.get(i).listaP);
+                    al.addAll(C.get(k).listaP);
+                    cent = new Punto((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+                    c = new Cluster(cent, al); // cambiar constructor
+                    c.maxDiametro();
+                    pq.add(c);
+                }
             }
-        }
-        // Saco el cluster menor
-        cMenor = pq.poll();
+            // Saco el cluster menor
+            cMenor = pq.poll();
 
-        // Eliminar los cluster que se unieron a cluster menor
-        removercluster(cMenor.listaP);
+            // Eliminar los cluster que se unieron a cluster menor
+            removercluster(cMenor.listaP);
 
-        // Agrego cMenor al arraylist de clusters
-        C.add(cMenor);
+            // Agrego cMenor al arraylist de clusters
+            C.add(cMenor);
         }
     }
 
@@ -563,39 +573,39 @@ public class InterfazCluster extends javax.swing.JDialog {
         kc++;
         // Iteracion Inicial donde se realizan el todo contra todos
         while (C.size() > kc) {
-        pq = new PriorityQueue<Cluster>();
-        for (int i = 0; i < C.size(); i++) {
-            for (int k = i + 1; k < C.size(); k++) {
-                p1 = C.get(i).centroide;
-                p2 = C.get(k).centroide;
-                al = new ArrayList<Punto>();
+            pq = new PriorityQueue<Cluster>();
+            for (int i = 0; i < C.size(); i++) {
+                for (int k = i + 1; k < C.size(); k++) {
+                    p1 = C.get(i).centroide;
+                    p2 = C.get(k).centroide;
+                    al = new ArrayList<Punto>();
 
-                al.addAll(C.get(i).listaP);
-                al.addAll(C.get(k).listaP);
+                    al.addAll(C.get(i).listaP);
+                    al.addAll(C.get(k).listaP);
 
-                cent = new Punto((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
-                c = new Cluster(cent, al); // cambiar constructor
-                c.promedio();
-                pq.add(c);
+                    cent = new Punto((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+                    c = new Cluster(cent, al); // cambiar constructor
+                    c.promedio();
+                    pq.add(c);
+                }
             }
-        }
-        // Saco el cluster menor
-        cMenor = pq.poll();
+            // Saco el cluster menor
+            cMenor = pq.poll();
 
-        // Eliminar los cluster que se unieron a cluster menor
-        removercluster(cMenor.listaP);
+            // Eliminar los cluster que se unieron a cluster menor
+            removercluster(cMenor.listaP);
 
-        // Agrego cMenor al arraylist de clusters
-        C.add(cMenor);
+            // Agrego cMenor al arraylist de clusters
+            C.add(cMenor);
         }
     }
-    
-    public void llenar_xmin_xmax(){
-        
+
+    public void llenar_xmin_xmax() {
+
         for (int i = 0; i < C.size(); i++) {
-            float xmn=Integer.MAX_VALUE, ymn=Integer.MAX_VALUE;
-            float xmx=Integer.MIN_VALUE, ymx=Integer.MIN_VALUE;
-            for(Punto p : C.get(i).listaP){
+            float xmn = Integer.MAX_VALUE, ymn = Integer.MAX_VALUE;
+            float xmx = Integer.MIN_VALUE, ymx = Integer.MIN_VALUE;
+            for (Punto p : C.get(i).listaP) {
                 xmn = Math.min(xmn, p.x);
                 ymn = Math.min(ymn, p.y);
                 xmx = Math.max(xmx, p.x);
