@@ -162,7 +162,7 @@ public class Graficar extends JFrame
          g.drawLine(12, ymas, 18, ymas);
        }
 
-        g.setColor(Color.BLUE);    
+        g.setColor(Color.blue);    
 
          Connection conn;
          Statement sentencia;
