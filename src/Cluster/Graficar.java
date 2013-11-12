@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package Cluster;
 
 /**
@@ -12,67 +13,22 @@ package Cluster;
 
 /*Este ejemplo fue tomado de internet y fue modificado para acceder y
  pintar figuras desde la BD*/
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseListener;
 import java.sql.*;
+import java.math.*;
+import java.util.HashSet;
 import java.util.Random;
-
-
-public class SquaredPaper_1_1 extends JPanel {
-
-    private Dimension area;
-    private JPanel panelppal;
-
-    public SquaredPaper_1_1() {
-        super(new BorderLayout());
-        area = new Dimension(0, 0);
-        JPanel panelseg = new JPanel(new GridLayout(0, 1));
-        //panelseg.setFocusable(true);
-
-        panelppal = new PanelPrincipal_1();
-        panelppal.setBackground(Color.white);
-        //panelppal.addMouseListener(this);
-
-        JScrollPane jscrollgrafica = new JScrollPane(panelppal);
-        jscrollgrafica.setPreferredSize(new Dimension(200, 200));
-
-        add(jscrollgrafica, BorderLayout.CENTER);
-        
-    }
-    private static void createAndShowGUI() {
-        //Create and set up the window.
-        JFrame frame = new JFrame("ScrollDemo2");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        //Create and set up the content pane.
-        JComponent newContentPane = new SquaredPaper_1_1();
-        newContentPane.setOpaque(true); //content panes must be opaque
-        frame.setContentPane(newContentPane);
-
-        //Display the window.
-        frame.pack();
-        frame.setVisible(true);
-    }
-    public static void main(String[] args) {
-        //Schedule a job for the event-dispatching thread:
-        //creating and showing this application's GUI.
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                createAndShowGUI();
-            }
-        });
-    }
-}
-
-class PanelPrincipal_1 extends JPanel {
-
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-    }
-
-    public void paint(Graphics g) {
-        Dimension d = getSize();
+ 
+public class Graficar extends JFrame 
+{
+ public  void paint(JPanel pnl) 
+ {
+    
+   Graphics g=pnl.getGraphics();
+   g.fillRect(0, 0, pnl.getWidth(), pnl.getHeight());
+   Dimension d = pnl.getSize();
         int x = d.width;
         int y = d.height;
         int xmin, ymin;
@@ -82,24 +38,131 @@ class PanelPrincipal_1 extends JPanel {
 
         g.setColor(Color.red);
 
-        g.drawLine(10,0,10,y);
-        g.drawLine(0,y-20,x,y-20);
+        g.drawLine(15,0,15,y);
+        g.drawLine(0,y-25,x,y-25);
 
-        String cad;
-        int xmas = 10;
-        int ymas = y-20;
+        int xmas = 5;
+        int ymas = y-15;
 
-       for(int i = 1; i<30; i++)
+       for(int i = 1; i<999; i++)
        {
-         cad = ""+ i;
          xmas = xmas + 10;
          ymas = ymas - 10;
-         g.drawString(cad, xmas, (y-5));
-         g.drawString(cad, 10, ymas);
+         g.drawLine(xmas, y-22, xmas, y-28);
+         g.drawLine(12, ymas, 18, ymas);
        }
 
-
         g.setColor(Color.blue);  
+
+         Connection conn;
+         Statement sentencia;
+         ResultSet resultado;
+
+         try
+         { // Se carga el driver JDBC-ODBC
+          Class.forName ("oracle.jdbc.driver.OracleDriver");
+         }
+         catch( Exception e ) 
+         {
+           System.out.println("No se pudo cargar el driver JDBC");
+           return;           
+         }
+
+         try
+         { // Se establece la conexión con la base de datos Oracle Express
+           conn = DriverManager.getConnection("jdbc:oracle:thin:@carlos-PC:1521:xe","tbases2","123");
+           sentencia = conn.createStatement();
+         }
+         catch( SQLException e ) 
+         {
+           System.out.println("No hay conexión con la base de datos.");
+           return;
+         }
+
+         try 
+         {
+           //Se recorren las tuplas retornadas
+           resultado = sentencia.executeQuery("select t2.x, t2.y from conjuntopuntos t, TABLE(t.mis_puntos) t2 WHERE id_conj = 8");
+           int x1;
+           int y1;
+           int xmax, ymax;
+           resultado.next();     
+           x1 = resultado.getInt("x")*10+10;
+           xmin = x1;
+           xmax = x1;
+           y1 = y - (resultado.getInt("y")*10+30);
+           ymin = y1;
+           ymax = y1;
+           g.fillOval(x1,y1,10,10);
+           while (resultado.next())
+           {
+
+               x1 = resultado.getInt("x")*10+10;
+               y1 = y - (resultado.getInt("y")*10+30);
+               if(xmin > x1)
+               {
+                   xmin = x1;
+               }
+               if(ymin > y1)
+               {
+                   ymin = y1;
+               }
+               if(xmax < x1)
+               {
+                   xmax = x1;
+               }
+               if(ymax < y1)
+               {
+                   ymax = y1;
+               }
+               g.fillOval(x1,y1,10,10);
+             //super.paintComponents(g);
+     /*        g.drawOval(resultado.getInt("a"),
+             resultado.getInt("b"),
+             resultado.getInt("c"),
+             resultado.getInt("d"));*/
+           }
+           conn.close();
+           g.drawRect(xmin, ymin, (xmax - xmin)+10, (ymax-ymin)+10);
+         }
+         catch(SQLException e)
+         {
+           System.out.println("Error: " + e.getMessage());
+         }
+ }
+ 
+ 
+ 
+  public  void paint2(JPanel pnl) 
+ {
+    
+   Graphics g=pnl.getGraphics();
+   g.fillRect(0, 0, pnl.getWidth(), pnl.getHeight());
+   Dimension d = pnl.getSize();
+        int x = d.width;
+        int y = d.height;
+        int xmin, ymin;
+
+        g.setColor(Color.WHITE);
+        g.fillRect(0,0,x,y);
+
+        g.setColor(Color.red);
+
+        g.drawLine(15,0,15,y);
+        g.drawLine(0,y-25,x,y-25);
+
+        int xmas = 5;
+        int ymas = y-15;
+
+       for(int i = 1; i<999; i++)
+       {
+         xmas = xmas + 10;
+         ymas = ymas - 10;
+         g.drawLine(xmas, y-22, xmas, y-28);
+         g.drawLine(12, ymas, 18, ymas);
+       }
+
+        g.setColor(Color.blue);    
 
          Connection conn;
          Statement sentencia;
@@ -178,4 +241,17 @@ class PanelPrincipal_1 extends JPanel {
            System.out.println("Error: " + e.getMessage());
          }
     }
+ 
+// public static void main(String args[]) 
+// {
+//   Graficar DrawWindow = new Graficar();
+// 
+//   DrawWindow.setSize(1360,720);
+//   DrawWindow.setResizable(false);
+//   DrawWindow.setLocation(5, 5);
+//   DrawWindow.setTitle("Pintando figuras almacenadas en la BD");    
+//   DrawWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//   
+//   DrawWindow.setVisible(true);
+// }
 }

@@ -230,7 +230,7 @@ public class Cluster extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "Debes ingesar un valor válido (mayor a 0)");
                 }
                 else{
-                     SquaredPaper DrawWindow = new SquaredPaper();
+                     Graficar DrawWindow = new Graficar();
                      DrawWindow.paint(jPanelGrafica);
                     }
                 }
@@ -256,7 +256,7 @@ public class Cluster extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "Debes ingesar un valor válido (mayor a 0)");
                 }
                 else{
-                     SquaredPaper DrawWindow = new SquaredPaper();
+                     Graficar DrawWindow = new Graficar();
                      DrawWindow.paint(jPanelGrafica);
                     }
                 }
@@ -272,7 +272,7 @@ public class Cluster extends javax.swing.JDialog {
         }
 
             else
-            {   SquaredPaper DrawWindow = new SquaredPaper();
+            {   Graficar DrawWindow = new Graficar();
                 DrawWindow.paint(jPanelGrafica);
             }
     //pq dice eso?
@@ -382,12 +382,11 @@ public class Cluster extends javax.swing.JDialog {
 
     private void jPanelGraficaComponentMoved(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelGraficaComponentMoved
         // TODO add your handling code here:
-        SquaredPaper DrawWindow = new SquaredPaper();
+        Graficar DrawWindow = new Graficar();
         DrawWindow.paint(jPanelGrafica);         
     }//GEN-LAST:event_jPanelGraficaComponentMoved
 
     private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_jButtonGuardarActionPerformed
 
     public void agegarTododosComponentes() 

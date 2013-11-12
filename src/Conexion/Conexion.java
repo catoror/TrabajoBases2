@@ -129,7 +129,7 @@ public class Conexion
             
             if(c==0)
             {
-                resultado = sentencia.executeQuery("insert into dibujo values("+ id_dibujo + "," + id_conj + ", '" + cond_generacion + "', '" + cond_generacion + " = " + umbral + "')");
+                resultado = sentencia.executeQuery("insert into dibujo values("+ id_dibujo + "," + id_conj + ", '" + cond_generacion + "', '" + cond_parada + " = " + umbral + "')");
                 resultado = sentencia.executeQuery("commit");
             }
             
