@@ -19,7 +19,7 @@ public class Cluster extends javax.swing.JDialog {
         agegarTododosComponentes();
         this.setResizable(false);
         jComboBoxCondicionGeneracion.setSelectedIndex(0);
-        agegarTododosComponentes();
+       
       }
 
     @SuppressWarnings("unchecked")
