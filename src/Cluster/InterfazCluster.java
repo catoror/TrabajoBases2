@@ -290,7 +290,6 @@ public class InterfazCluster extends javax.swing.JDialog {
         jScrollPaneGrafica.setEnabled(false);
         jScrollPaneGrafica.getVerticalScrollBar().setEnabled(false);
         jScrollPaneGrafica.getHorizontalScrollBar().setEnabled(false);
-
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jComboBoxCondicionParadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxCondicionParadaActionPerformed
