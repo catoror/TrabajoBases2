@@ -18,6 +18,8 @@ public class InterfazCluster extends javax.swing.JDialog {
     public ArrayList<Punto> al;
     public Cluster c, cMenor;
     public float[] xmin, ymin, xmax, ymax;
+    
+    
 
     public InterfazCluster(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
