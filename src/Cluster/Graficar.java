@@ -8,12 +8,12 @@ import java.util.Random;
 
  public class Graficar extends JFrame 
  {
-public  void paint(JPanel pnl) 
+public  void paint(JPanel pnl, int id) 
 {
 
-Graphics g=pnl.getGraphics();
-g.fillRect(0, 0, pnl.getWidth(), pnl.getHeight());
-Dimension d = pnl.getSize();
+    Graphics g=pnl.getGraphics();
+    g.fillRect(0, 0, pnl.getWidth(), pnl.getHeight());
+    Dimension d = pnl.getSize();
     int x = d.width;
     int y = d.height;
     int xmin, ymin;
@@ -67,7 +67,7 @@ Dimension d = pnl.getSize();
      try 
      {
        //Se recorren las tuplas retornadas
-       resultado = sentencia.executeQuery("select t2.x, t2.y from conjuntopuntos t, TABLE(t.mis_puntos) t2 WHERE id_conj = 8");
+       resultado = sentencia.executeQuery("select t2.x, t2.y from conjuntopuntos t, TABLE(t.mis_puntos) t2 WHERE id_conj = " + id);
        int x1;
        int y1;
        int xmax, ymax;
@@ -84,22 +84,22 @@ Dimension d = pnl.getSize();
  
            x1 = resultado.getInt("x")*10+10;
            y1 = y - (resultado.getInt("y")*10+30);
-           if(xmin > x1)
-           {
-               xmin = x1;
-           }
-           if(ymin > y1)
-           {
-               ymin = y1;
-           }
-           if(xmax < x1)
-           {
-               xmax = x1;
-           }
-           if(ymax < y1)
-           {
-               ymax = y1;
-           }
+//           if(xmin > x1)
+//           {
+//               xmin = x1;
+//           }
+//           if(ymin > y1)
+//           {
+//               ymin = y1;
+//           }
+//           if(xmax < x1)
+//           {
+//               xmax = x1;
+//           }
+//           if(ymax < y1)
+//           {
+//               ymax = y1;
+//           }
            g.fillOval(x1,y1,10,10);
          //super.paintComponents(g);
  /*        g.drawOval(resultado.getInt("a"),
@@ -108,7 +108,7 @@ Dimension d = pnl.getSize();
          resultado.getInt("d"));*/
        }
        conn.close();
-       g.drawRect(xmin, ymin, (xmax - xmin)+10, (ymax-ymin)+10);
+//       g.drawRect(xmin, ymin, (xmax - xmin)+10, (ymax-ymin)+10);
      }
      catch(SQLException e)
      {
