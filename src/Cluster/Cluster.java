@@ -1,10 +1,6 @@
 package Cluster;
 
 import javax.swing.JOptionPane;
-import java.awt.Component;
-import java.awt.*;
-import javax.swing.JScrollPane;
-import javax.swing.JViewport;
 
 public class Cluster extends javax.swing.JDialog {
 
