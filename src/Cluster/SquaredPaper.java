@@ -1,18 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Cluster;
-
-/**
- *
- * @author Carlos
- */
-
-/*Este ejemplo fue tomado de internet y fue modificado para acceder y
- pintar figuras desde la BD*/
 
 import javax.swing.*;
 import java.awt.*;

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Cluster implements Comparable<Cluster> {
 	public Punto centroide;
 	public float condicionGeneracion;
-	public ArrayList<Punto> listaP;
+	public ArrayList<Punto> listaP;        
 
 	public Cluster(Punto c, float d, ArrayList<Punto> al) {
 		centroide = c;

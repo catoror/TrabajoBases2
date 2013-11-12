@@ -10,6 +10,11 @@ public class Conexion
     Statement sentencia;
     ResultSet resultado;
     Punto coordenada[];
+
+    public Punto[] getCoordenada() {
+        return coordenada;
+    }
+    
     public void conectar()
     {
         System.out.println("Conexión a la base de datos...");
@@ -77,6 +82,7 @@ public class Conexion
 
     public void selectCoordenada(int id)
     {
+        System.out.print("OLA");
         conectar();
         float x;
         float y;

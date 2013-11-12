@@ -1,11 +1,27 @@
 package Cluster;
 
 import javax.swing.JOptionPane;
+import Conexion.*;
+import Punto.*;
+import java.util.ArrayList;
+import java.util.PriorityQueue;
 
 public class InterfazCluster extends javax.swing.JDialog {
 
+    public final int INF = Integer.MAX_VALUE;
+    public ArrayList<Cluster> C;
+    public PriorityQueue<Cluster> pq;
+    public Conexion ccon = new Conexion();
+    public Punto[] PuntosB;
+    public Punto p1, p2, cent;
+    public float dist;
+    public ArrayList<Punto> al;
+    public Cluster c, cMenor;
+
     public InterfazCluster(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+
+
         initComponents();
         jLabelNumeroClusters.setVisible(false);
         jTextFieldNumeroCluster.setVisible(false);
@@ -140,63 +156,13 @@ public class InterfazCluster extends javax.swing.JDialog {
         jScrollPaneGrafica.setAutoscrolls(true);
         jScrollPaneGrafica.setMaximumSize(new java.awt.Dimension(490, 490));
         jScrollPaneGrafica.setMinimumSize(new java.awt.Dimension(490, 490));
-        jScrollPaneGrafica.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
-            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
-                jScrollPaneGraficaMouseWheelMoved(evt);
-            }
-        });
-        jScrollPaneGrafica.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jScrollPaneGraficaMouseEntered(evt);
-            }
-        });
-        jScrollPaneGrafica.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentMoved(java.awt.event.ComponentEvent evt) {
-                jScrollPaneGraficaComponentMoved(evt);
-            }
-            public void componentResized(java.awt.event.ComponentEvent evt) {
-                jScrollPaneGraficaComponentResized(evt);
-            }
-        });
-        jScrollPaneGrafica.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                jScrollPaneGraficaMouseDragged(evt);
-            }
-        });
-        jScrollPaneGrafica.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                jScrollPaneGraficaCaretPositionChanged(evt);
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-        });
-        jScrollPaneGrafica.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jScrollPaneGraficaPropertyChange(evt);
-            }
-        });
-        jScrollPaneGrafica.addVetoableChangeListener(new java.beans.VetoableChangeListener() {
-            public void vetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {
-                jScrollPaneGraficaVetoableChange(evt);
-            }
-        });
 
         jPanelGrafica.setAutoscrolls(true);
         jPanelGrafica.setMinimumSize(new java.awt.Dimension(9990, 9990));
         jPanelGrafica.setPreferredSize(new java.awt.Dimension(9990, 9990));
-        jPanelGrafica.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jPanelGraficaMouseEntered(evt);
-            }
-        });
         jPanelGrafica.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentMoved(java.awt.event.ComponentEvent evt) {
                 jPanelGraficaComponentMoved(evt);
-            }
-        });
-        jPanelGrafica.addVetoableChangeListener(new java.beans.VetoableChangeListener() {
-            public void vetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {
-                jPanelGraficaVetoableChange(evt);
             }
         });
         jPanelGrafica.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -208,18 +174,19 @@ public class InterfazCluster extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerarActionPerformed
-        double ncluster, umbral, idConjunto;
+        float umbral;
+        int idConjunto, ncluster;
         jScrollPaneGrafica.setVisible(true);
         jPanelGrafica.setEnabled(true);
         //Control de ingreso para los valores en los jtextfield
         if (!jTextField1.getText().isEmpty()) {
             try {
-                idConjunto = Double.parseDouble(jTextField1.getText());
+                idConjunto = Integer.parseInt(jTextField1.getText());
                 if (jTextFieldValorUmbral.isVisible() == true) {
                     if (!jTextFieldValorUmbral.getText().isEmpty()) {
                         //Control de ingreso para los valores en los jtextfield para las coordenadas x y y
                         try {
-                            umbral = Double.parseDouble(jTextFieldValorUmbral.getText());
+                            umbral = Float.parseFloat(jTextFieldValorUmbral.getText());
                             if (umbral < 0) {
                                 JOptionPane.showMessageDialog(this, "Debes ingesar un valor válido (mayor a 0)");
                             } else {
@@ -228,8 +195,25 @@ public class InterfazCluster extends javax.swing.JDialog {
                                 jScrollPaneGrafica.getVerticalScrollBar().setEnabled(true);
                                 jScrollPaneGrafica.getHorizontalScrollBar().setEnabled(true);
                                 jScrollPaneGrafica.getVerticalScrollBar().setValue(9990);
-                                SquaredPaper DrawWindow = new SquaredPaper();
-                                DrawWindow.paint(jPanelGrafica);
+                                
+                                ccon.selectCoordenada(idConjunto);
+                                PuntosB = ccon.getCoordenada();
+
+                                // Converion del vector de Puntos al vector de Clusters
+                                C = puntosAClusters(PuntosB);
+                                if(jComboBoxCondicionGeneracion.getSelectedIndex() == 0){
+                                    
+                                }else if(jComboBoxCondicionGeneracion.getSelectedIndex() == 1){
+                                    
+                                }else if(jComboBoxCondicionGeneracion.getSelectedIndex() == 2){
+                                    
+                                }else if(jComboBoxCondicionGeneracion.getSelectedIndex() == 3){
+                                    
+                                }
+
+
+//                                SquaredPaper DrawWindow = new SquaredPaper();
+//                                DrawWindow.paint(jPanelGrafica);
                             }
                         } catch (NumberFormatException ex) {
                             JOptionPane.showMessageDialog(this, "Ingresa por favor valores numéricos");
@@ -242,7 +226,7 @@ public class InterfazCluster extends javax.swing.JDialog {
                     if (!jTextFieldNumeroCluster.getText().isEmpty()) {
                         //Control de ingreso para los valores en los jtextfield 
                         try {
-                            ncluster = Double.parseDouble(jTextFieldNumeroCluster.getText());
+                            ncluster = Integer.parseInt(jTextFieldNumeroCluster.getText());
                             if (ncluster < 0) {
                                 JOptionPane.showMessageDialog(this, "Debes ingesar un valor válido (mayor a 0)");
                             } else {
@@ -251,8 +235,25 @@ public class InterfazCluster extends javax.swing.JDialog {
                                 jScrollPaneGrafica.getVerticalScrollBar().setEnabled(true);
                                 jScrollPaneGrafica.getHorizontalScrollBar().setEnabled(true);
                                 jScrollPaneGrafica.getVerticalScrollBar().setValue(9990);
-                                SquaredPaper DrawWindow = new SquaredPaper();
-                                DrawWindow.paint(jPanelGrafica);
+                                
+                                ccon.selectCoordenada(idConjunto);
+                                PuntosB = ccon.getCoordenada();
+
+                                // Converion del vector de Puntos al vector de Clusters
+                                C = puntosAClusters(PuntosB);
+                                
+                                if(jComboBoxCondicionGeneracion.getSelectedIndex() == 0){
+                                    puntoCercanoKclusters(ncluster);
+                                }else if(jComboBoxCondicionGeneracion.getSelectedIndex() == 1){
+                                    porPromedioKclusters(ncluster);
+                                }else if(jComboBoxCondicionGeneracion.getSelectedIndex() == 2){
+                                    porRadioKclusters(ncluster);
+                                }else if(jComboBoxCondicionGeneracion.getSelectedIndex() == 3){
+                                    porDiametroKclusters(ncluster);
+                                }
+                                
+                                //SquaredPaper DrawWindow = new SquaredPaper();
+                                //DrawWindow.paint(jPanelGrafica);
                             }
                         } catch (NumberFormatException ex) {
                             JOptionPane.showMessageDialog(this, "Ingresa por favor valores numéricos");
@@ -302,27 +303,6 @@ public class InterfazCluster extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jComboBoxCondicionParadaActionPerformed
 
-    private void jScrollPaneGraficaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jScrollPaneGraficaPropertyChange
-    }//GEN-LAST:event_jScrollPaneGraficaPropertyChange
-    private void jScrollPaneGraficaMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPaneGraficaMouseDragged
-    }//GEN-LAST:event_jScrollPaneGraficaMouseDragged
-    private void jScrollPaneGraficaMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jScrollPaneGraficaMouseWheelMoved
-    }//GEN-LAST:event_jScrollPaneGraficaMouseWheelMoved
-    private void jScrollPaneGraficaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPaneGraficaMouseEntered
-    }//GEN-LAST:event_jScrollPaneGraficaMouseEntered
-    private void jPanelGraficaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelGraficaMouseEntered
-    }//GEN-LAST:event_jPanelGraficaMouseEntered
-    private void jPanelGraficaVetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {//GEN-FIRST:event_jPanelGraficaVetoableChange
-    }//GEN-LAST:event_jPanelGraficaVetoableChange
-    private void jScrollPaneGraficaCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jScrollPaneGraficaCaretPositionChanged
-    }//GEN-LAST:event_jScrollPaneGraficaCaretPositionChanged
-    private void jScrollPaneGraficaVetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {//GEN-FIRST:event_jScrollPaneGraficaVetoableChange
-    }//GEN-LAST:event_jScrollPaneGraficaVetoableChange
-    private void jScrollPaneGraficaComponentMoved(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jScrollPaneGraficaComponentMoved
-    }//GEN-LAST:event_jScrollPaneGraficaComponentMoved
-    private void jScrollPaneGraficaComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jScrollPaneGraficaComponentResized
-    }//GEN-LAST:event_jScrollPaneGraficaComponentResized
-
     private void jPanelGraficaComponentMoved(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelGraficaComponentMoved
         // TODO add your handling code here:
 
@@ -342,14 +322,260 @@ public class InterfazCluster extends javax.swing.JDialog {
     public void agegarTododosComponentes() {
         jComboBoxCondicionParada.addItem("Alcanza número de clusters especificados");
         jComboBoxCondicionParada.addItem("Excede el umbral");
+    }
+
+    public void removercluster(ArrayList<Punto> pp) {
+        for (int i = 0; i < pp.size(); i++) {
+            for (int k = 0; k < C.size(); k++) {
+                if (C.get(k).listaP.contains(pp.get(i))) {
+                    C.remove(k);
+                }
+            }
+        }
+    }
+
+    public ArrayList<Cluster> puntosAClusters(Punto[] pp) {
+        ArrayList<Cluster> cc = new ArrayList<Cluster>();
+        for (int i = 0; i < pp.length; i++) {
+            ArrayList<Punto> ll = new ArrayList<Punto>();
+            ll.add(pp[i]);
+            cc.add(new Cluster(pp[i], INF, ll));// verificar el constructor
+        }
+        return cc;
+    }
+
+    public void puntoCercanoUmbral(float umbral) {
+        // Iteracion Inicial donde se realizan el todo contra todos
+        pq = new PriorityQueue<Cluster>();
+        for (int i = 0; i < C.size(); i++) {
+            for (int k = i + 1; k < C.size(); k++) {
+                p1 = C.get(i).centroide;
+                p2 = C.get(k).centroide;
+                al = new ArrayList<Punto>();
+
+                al.addAll(C.get(i).listaP);
+                al.addAll(C.get(k).listaP);
+
+                dist = p1.distancia(p2);
+                cent = new Punto((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+                c = new Cluster(cent, dist, al); // cambiar constructor
+                pq.add(c);
+            }
+        }
+        // Saco el cluster menor
+        cMenor = pq.poll();
+
+        // Eliminar los cluster que se unieron a cluster menor
+        removercluster(cMenor.listaP);
+
+        // Agrego cMenor al arraylist de clusters
+        C.add(cMenor);
 
     }
 
-//    public void agegarRadioODiametro() {
-//        jComboBoxCondicionParada.addItem("Alcanza número de clusters especificados");
-//        jComboBoxCondicionParada.removeItem("Diámetro excede el umbral");
-//
-//    }
+    public void porRadioUmbral(float umbral) {
+        // Iteracion Inicial donde se realizan el todo contra todos
+        pq = new PriorityQueue<Cluster>();
+        for (int i = 0; i < C.size(); i++) {
+            for (int k = i + 1; k < C.size(); k++) {
+                p1 = C.get(i).centroide;
+                p2 = C.get(k).centroide;
+                al = new ArrayList<Punto>();
+
+                al.addAll(C.get(i).listaP);
+                al.addAll(C.get(k).listaP);
+
+                cent = new Punto((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+                c = new Cluster(cent, al); // cambiar constructor
+                c.maxRadio();
+                pq.add(c);
+            }
+        }
+        // Saco el cluster menor
+        cMenor = pq.poll();
+
+        // Eliminar los cluster que se unieron a cluster menor
+        removercluster(cMenor.listaP);
+
+        // Agrego cMenor al arraylist de clusters
+        C.add(cMenor);
+
+    }
+
+    public void porDiametroUmbral(float umbral) {
+        // Iteracion Inicial donde se realizan el todo contra todos
+        pq = new PriorityQueue<Cluster>();
+        for (int i = 0; i < C.size(); i++) {
+            for (int k = i + 1; k < C.size(); k++) {
+                p1 = C.get(i).centroide;
+                p2 = C.get(k).centroide;
+                al = new ArrayList<Punto>();
+
+                al.addAll(C.get(i).listaP);
+                al.addAll(C.get(k).listaP);
+                cent = new Punto((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+                c = new Cluster(cent, al); // cambiar constructor
+                c.maxDiametro();
+                pq.add(c);
+            }
+        }
+        // Saco el cluster menor
+        cMenor = pq.poll();
+
+        // Eliminar los cluster que se unieron a cluster menor
+        removercluster(cMenor.listaP);
+
+        // Agrego cMenor al arraylist de clusters
+        C.add(cMenor);
+
+    }
+
+    public void porPromedioUmbral(float umbral) {
+        // Iteracion Inicial donde se realizan el todo contra todos
+        pq = new PriorityQueue<Cluster>();
+        for (int i = 0; i < C.size(); i++) {
+            for (int k = i + 1; k < C.size(); k++) {
+                p1 = C.get(i).centroide;
+                p2 = C.get(k).centroide;
+                al = new ArrayList<Punto>();
+
+                al.addAll(C.get(i).listaP);
+                al.addAll(C.get(k).listaP);
+
+                cent = new Punto((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+                c = new Cluster(cent, al); // cambiar constructor
+                c.promedio();
+                pq.add(c);
+            }
+        }
+        // Saco el cluster menor
+        cMenor = pq.poll();
+
+        // Eliminar los cluster que se unieron a cluster menor
+        removercluster(cMenor.listaP);
+
+        // Agrego cMenor al arraylist de clusters
+        C.add(cMenor);
+
+    }
+
+    public void puntoCercanoKclusters(int kc) {
+        //++kc;
+        // Iteracion Inicial donde se realizan el todo contra todos
+        while (C.size() > kc) {
+            pq = new PriorityQueue<Cluster>();
+            for (int i = 0; i < C.size(); i++) {
+                for (int k = i + 1; k < C.size(); k++) {
+                    p1 = C.get(i).centroide;
+                    p2 = C.get(k).centroide;
+                    al = new ArrayList<Punto>();
+
+                    al.addAll(C.get(i).listaP);
+                    al.addAll(C.get(k).listaP);
+
+                    dist = p1.distancia(p2);
+                    cent = new Punto((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+                    c = new Cluster(cent, dist, al); // cambiar constructor
+                    pq.add(c);
+                }
+            }
+            // Saco el cluster menor
+            cMenor = pq.poll();
+
+            // Eliminar los cluster que se unieron a cluster menor
+            removercluster(cMenor.listaP);
+
+            // Agrego cMenor al arraylist de clusters
+            C.add(cMenor);
+        }
+    }
+
+    public void porRadioKclusters(int kc) {
+        // Iteracion Inicial donde se realizan el todo contra todos
+        pq = new PriorityQueue<Cluster>();
+        for (int i = 0; i < C.size(); i++) {
+            for (int k = i + 1; k < C.size(); k++) {
+                p1 = C.get(i).centroide;
+                p2 = C.get(k).centroide;
+                al = new ArrayList<Punto>();
+
+                al.addAll(C.get(i).listaP);
+                al.addAll(C.get(k).listaP);
+
+                cent = new Punto((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+                c = new Cluster(cent, al); // cambiar constructor
+                c.maxRadio();
+                pq.add(c);
+            }
+        }
+        // Saco el cluster menor
+        cMenor = pq.poll();
+
+        // Eliminar los cluster que se unieron a cluster menor
+        removercluster(cMenor.listaP);
+
+        // Agrego cMenor al arraylist de clusters
+        C.add(cMenor);
+
+    }
+
+    public void porDiametroKclusters(int kc) {
+        // Iteracion Inicial donde se realizan el todo contra todos
+        pq = new PriorityQueue<Cluster>();
+        for (int i = 0; i < C.size(); i++) {
+            for (int k = i + 1; k < C.size(); k++) {
+                p1 = C.get(i).centroide;
+                p2 = C.get(k).centroide;
+                al = new ArrayList<Punto>();
+
+                al.addAll(C.get(i).listaP);
+                al.addAll(C.get(k).listaP);
+                cent = new Punto((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+                c = new Cluster(cent, al); // cambiar constructor
+                c.maxDiametro();
+                pq.add(c);
+            }
+        }
+        // Saco el cluster menor
+        cMenor = pq.poll();
+
+        // Eliminar los cluster que se unieron a cluster menor
+        removercluster(cMenor.listaP);
+
+        // Agrego cMenor al arraylist de clusters
+        C.add(cMenor);
+
+    }
+
+    public void porPromedioKclusters(int kc) {
+        // Iteracion Inicial donde se realizan el todo contra todos
+        pq = new PriorityQueue<Cluster>();
+        for (int i = 0; i < C.size(); i++) {
+            for (int k = i + 1; k < C.size(); k++) {
+                p1 = C.get(i).centroide;
+                p2 = C.get(k).centroide;
+                al = new ArrayList<Punto>();
+
+                al.addAll(C.get(i).listaP);
+                al.addAll(C.get(k).listaP);
+
+                cent = new Punto((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+                c = new Cluster(cent, al); // cambiar constructor
+                c.promedio();
+                pq.add(c);
+            }
+        }
+        // Saco el cluster menor
+        cMenor = pq.poll();
+
+        // Eliminar los cluster que se unieron a cluster menor
+        removercluster(cMenor.listaP);
+
+        // Agrego cMenor al arraylist de clusters
+        C.add(cMenor);
+
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
