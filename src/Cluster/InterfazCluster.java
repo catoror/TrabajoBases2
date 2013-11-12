@@ -17,6 +17,7 @@ public class InterfazCluster extends javax.swing.JDialog {
     public float dist;
     public ArrayList<Punto> al;
     public Cluster c, cMenor;
+    public float[] xmin, ymin, xmax, ymax;
 
     public InterfazCluster(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -252,6 +253,12 @@ public class InterfazCluster extends javax.swing.JDialog {
                                     porDiametroKclusters(ncluster);
                                 }
                                 
+                                xmin = new float[C.size()];
+                                ymin = new float[C.size()];
+                                xmax = new float[C.size()];
+                                ymax = new float[C.size()];
+                                
+                                
                                 //SquaredPaper DrawWindow = new SquaredPaper();
                                 //DrawWindow.paint(jPanelGrafica);
                             }
@@ -460,7 +467,7 @@ public class InterfazCluster extends javax.swing.JDialog {
     }
 
     public void puntoCercanoKclusters(int kc) {
-        //++kc;
+        kc++;
         // Iteracion Inicial donde se realizan el todo contra todos
         while (C.size() > kc) {
             pq = new PriorityQueue<Cluster>();
@@ -491,7 +498,9 @@ public class InterfazCluster extends javax.swing.JDialog {
     }
 
     public void porRadioKclusters(int kc) {
+        kc++;
         // Iteracion Inicial donde se realizan el todo contra todos
+        while (C.size() > kc) {
         pq = new PriorityQueue<Cluster>();
         for (int i = 0; i < C.size(); i++) {
             for (int k = i + 1; k < C.size(); k++) {
@@ -516,12 +525,13 @@ public class InterfazCluster extends javax.swing.JDialog {
 
         // Agrego cMenor al arraylist de clusters
         C.add(cMenor);
-
+        }
     }
 
     public void porDiametroKclusters(int kc) {
+        kc++;
         // Iteracion Inicial donde se realizan el todo contra todos
-        pq = new PriorityQueue<Cluster>();
+        while (C.size() > kc) {
         for (int i = 0; i < C.size(); i++) {
             for (int k = i + 1; k < C.size(); k++) {
                 p1 = C.get(i).centroide;
@@ -544,11 +554,13 @@ public class InterfazCluster extends javax.swing.JDialog {
 
         // Agrego cMenor al arraylist de clusters
         C.add(cMenor);
-
+        }
     }
 
     public void porPromedioKclusters(int kc) {
+        kc++;
         // Iteracion Inicial donde se realizan el todo contra todos
+        while (C.size() > kc) {
         pq = new PriorityQueue<Cluster>();
         for (int i = 0; i < C.size(); i++) {
             for (int k = i + 1; k < C.size(); k++) {
@@ -573,7 +585,25 @@ public class InterfazCluster extends javax.swing.JDialog {
 
         // Agrego cMenor al arraylist de clusters
         C.add(cMenor);
-
+        }
+    }
+    
+    public void llenar_xmin_xmax(){
+        
+        for (int i = 0; i < C.size(); i++) {
+            float xmn=Integer.MAX_VALUE, ymn=Integer.MAX_VALUE;
+            float xmx=Integer.MIN_VALUE, ymx=Integer.MIN_VALUE;
+            for(Punto p : C.get(i).listaP){
+                xmn = Math.min(xmn, p.x);
+                ymn = Math.min(ymn, p.y);
+                xmx = Math.max(xmx, p.x);
+                ymx = Math.max(ymx, p.y);
+            }
+            xmin[i] = xmn;
+            ymin[i] = ymn;
+            xmax[i] = xmx;
+            ymax[i] = ymx;
+        }
     }
 
     public static void main(String args[]) {
