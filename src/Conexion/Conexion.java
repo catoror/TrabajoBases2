@@ -10,9 +10,13 @@ public class Conexion
     Statement sentencia;
     ResultSet resultado;
     Punto coordenada[];
+    int IdDibujo[];
 
     public Punto[] getCoordenada() {
         return coordenada;
+    }
+    public int[] getIdDibujo() {
+        return IdDibujo;
     }
     
     public void conectar()
@@ -79,6 +83,30 @@ public class Conexion
         }
     }
 
+    public void selectIdDibuo(){
+        conectar();
+        int i = -1;
+        ResultSet tamano;
+        try 
+        {
+            tamano = sentencia.executeQuery("select count(*) as c from dibujo");
+            tamano.next();
+            IdDibujo = new int[tamano.getInt("c")];
+            
+            resultado = sentencia.executeQuery("select id_dibujo from dibujo");
+
+            while (resultado.next()) 
+            {
+                IdDibujo[++i] = resultado.getInt(1);
+            }
+            
+            //Se recorren las tuplas retornadas
+
+            conn.close(); //Cierre de la conexión
+        } catch (SQLException e) {
+            System.out.println("Error: "+ e.getMessage());
+        }
+    }
     public void selectCoordenada(int id)
     {
         conectar();
@@ -91,7 +119,6 @@ public class Conexion
             tamano = sentencia.executeQuery("select count(t2.x) as c  from conjuntopuntos t, TABLE(t.mis_puntos) t2 WHERE id_conj = " + id);
             tamano.next();
             coordenada = new Punto[tamano.getInt("c")];
-            System.out.println(coordenada.length);
             
             resultado = sentencia.executeQuery("select t2.x, t2.y from conjuntopuntos t, TABLE(t.mis_puntos) t2 WHERE id_conj = " + id);
 

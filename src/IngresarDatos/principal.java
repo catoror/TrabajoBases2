@@ -1,16 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package IngresarDatos;
 import Cluster.*;
 
-/**
- *
- * @author kittylon
- */
 public class principal extends javax.swing.JFrame {
 
     /**
@@ -208,8 +198,8 @@ public class principal extends javax.swing.JFrame {
 
     private void jButtonVerClusterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVerClusterActionPerformed
        
-       verClusters vc= new verClusters();
-        vc.setVisible(true);
+        VerInterfazCluster vs = null;
+        vs.setVisible(true);
         this.setVisible(false);
 
     }//GEN-LAST:event_jButtonVerClusterActionPerformed

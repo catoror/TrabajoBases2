@@ -294,25 +294,6 @@ public class InterfazCluster extends javax.swing.JDialog {
         jScrollPaneGrafica.getHorizontalScrollBar().setEnabled(false);
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
-    private void jComboBoxCondicionParadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxCondicionParadaActionPerformed
-        jLabelValorUmbral.setVisible(false);
-        jTextFieldNumeroCluster.setVisible(false);
-        jLabelNumeroClusters.setVisible(false);
-        jTextFieldValorUmbral.setVisible(false);
-        if (jComboBoxCondicionParada.getSelectedIndex() == 0) {
-            jLabelNumeroClusters.setVisible(true);
-            jTextFieldNumeroCluster.setVisible(true);
-            jLabelValorUmbral.setVisible(false);
-            jTextFieldValorUmbral.setVisible(false);
-        } else if (jComboBoxCondicionParada.getSelectedIndex() == 1) {
-            jLabelNumeroClusters.setVisible(false);
-            jTextFieldValorUmbral.setVisible(false);
-            jLabelValorUmbral.setVisible(true);
-            jTextFieldValorUmbral.setVisible(true);
-        }
-
-    }//GEN-LAST:event_jComboBoxCondicionParadaActionPerformed
-
     private void jPanelGraficaComponentMoved(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelGraficaComponentMoved
         // TODO add your handling code here:
 
@@ -348,6 +329,24 @@ public class InterfazCluster extends javax.swing.JDialog {
         }
         
     }//GEN-LAST:event_jButtonGuardarActionPerformed
+
+    private void jComboBoxCondicionParadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxCondicionParadaActionPerformed
+        jLabelValorUmbral.setVisible(false);
+        jTextFieldNumeroCluster.setVisible(false);
+        jLabelNumeroClusters.setVisible(false);
+        jTextFieldValorUmbral.setVisible(false);
+        if (jComboBoxCondicionParada.getSelectedIndex() == 0) {
+            jLabelNumeroClusters.setVisible(true);
+            jTextFieldNumeroCluster.setVisible(true);
+            jLabelValorUmbral.setVisible(false);
+            jTextFieldValorUmbral.setVisible(false);
+        } else if (jComboBoxCondicionParada.getSelectedIndex() == 1) {
+            jLabelNumeroClusters.setVisible(false);
+            jTextFieldValorUmbral.setVisible(false);
+            jLabelValorUmbral.setVisible(true);
+            jTextFieldValorUmbral.setVisible(true);
+        }
+    }//GEN-LAST:event_jComboBoxCondicionParadaActionPerformed
 
     private void jComboBoxCondicionParadaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxCondicionParadaItemStateChanged
         jTextFieldNumeroCluster.setText(null);
@@ -647,30 +646,7 @@ public class InterfazCluster extends javax.swing.JDialog {
     }
 
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InterfazCluster.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InterfazCluster.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InterfazCluster.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InterfazCluster.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 InterfazCluster dialog = new InterfazCluster(new javax.swing.JFrame(), true);
