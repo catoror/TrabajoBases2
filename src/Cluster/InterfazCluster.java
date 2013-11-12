@@ -216,6 +216,7 @@ public class InterfazCluster extends javax.swing.JDialog {
                                 llenar_xmin_xmax();
 
                                 Graficar DrawWindow = new Graficar();
+                                //DrawWindow.paint2(jPanelGrafica, idConjunto);
                                 DrawWindow.paint(jPanelGrafica, idConjunto, xmin, xmax, ymin, ymax);
                             }
                         } catch (NumberFormatException ex) {
@@ -262,6 +263,7 @@ public class InterfazCluster extends javax.swing.JDialog {
                                 llenar_xmin_xmax();
 
                                 Graficar DrawWindow = new Graficar();
+                                //DrawWindow.paint2(jPanelGrafica, idConjunto);
                                 DrawWindow.paint(jPanelGrafica, idConjunto, xmin, xmax, ymin, ymax);
                             }
                         } catch (NumberFormatException ex) {
@@ -315,6 +317,7 @@ public class InterfazCluster extends javax.swing.JDialog {
         // TODO add your handling code here:
 
             Graficar DrawWindow = new Graficar();
+            //DrawWindow.paint2(jPanelGrafica, idConjunto);
             DrawWindow.paint(jPanelGrafica, idConjunto, xmin, xmax, ymin, ymax);
     }//GEN-LAST:event_jPanelGraficaComponentMoved
 
@@ -336,7 +339,7 @@ public class InterfazCluster extends javax.swing.JDialog {
         int i = 0;
         for(Cluster cc:C)         
         {
-            ccon.insertarCluster(xmin[i], xmax[i], ymin[i], ymax[i]);
+            ccon.insertarCluster(xmin[i], ymin[i], xmax[i], ymax[i]);
             for(Punto pp:cc.listaP)
             {
                 ccon.insertarPuntosCluster(pp.x, pp.y);

@@ -80,8 +80,7 @@ public  void paint(JPanel pnl, int id, float[] xmin, float[] xmax,float[] ymin,f
 //       ymax = y1;
        g.fillOval((int)x1,(int)y1,10,10);
        while (resultado.next())
-       {
- 
+       { 
            x1 = resultado.getInt("x")*10+10;
            y1 = y - (resultado.getInt("y")*10+30);
            g.fillOval((int)x1,(int)y1,10,10);
@@ -111,7 +110,7 @@ public  void paint(JPanel pnl, int id, float[] xmin, float[] xmax,float[] ymin,f
      }
 }
 
-public  void paint2(JPanel pnl) 
+public  void paint2(JPanel pnl, int id)
 {
 
 Graphics g=pnl.getGraphics();
@@ -170,7 +169,7 @@ Dimension d = pnl.getSize();
      try 
      {
        //Se recorren las tuplas retornadas
-       resultado = sentencia.executeQuery("select deref(id_dibujo).id_dibujo as id_dibujo, id_cluster, c2.x, c2.y, xmin, xmax, ymin, ymax, deref(id_dibujo).id_conj as id_conj, deref(id_dibujo).cond_generacion as cond_generacion, deref(id_dibujo).cond_parada as cond_parada from clusters c, TABLE(c.puntos_cluster) c2 where deref(id_dibujo).id_dibujo=1");
+       resultado = sentencia.executeQuery("select deref(id_dibujo).id_dibujo as id_dibujo, id_cluster, c2.x, c2.y, xmin, xmax, ymin, ymax, deref(id_dibujo).id_conj as id_conj, deref(id_dibujo).cond_generacion as cond_generacion, deref(id_dibujo).cond_parada as cond_parada from clusters c, TABLE(c.puntos_cluster) c2 where deref(id_dibujo).id_dibujo=" + id);
        int id_dibujo, id_cluster, id_conj;
        float cx, cy, cxmin, cxmax, cymin, cymax;
        String cond_generacion, cond_parada;
@@ -187,26 +186,20 @@ Dimension d = pnl.getSize();
             id_dibujo = resultado.getInt("id_dibujo");
             cond_generacion = resultado.getString("cond_generacion");
             cond_parada = resultado.getString("cond_parada");
-            cxmin = resultado.getFloat("xmin")*10+10;
-            cxmax = resultado.getFloat("xmax")*10+10;
-            cymax = y - (resultado.getFloat("ymin")*10+30);
-            cymin = y - (resultado.getFloat("ymax")*10+30);
+            cxmin = resultado.getFloat("xmin");
+            cxmax = resultado.getFloat("xmax");
+            cymin = (resultado.getFloat("ymin"));
+            cymax = (resultado.getFloat("ymax"));
             id_cluster = resultado.getInt("id_cluster");
             cx = resultado.getFloat("x")*10+10;
             cy = y - (resultado.getFloat("y")*10+30);
             g.fillOval((int)cx,(int)cy,10,10);
-            System.out.println("xmin: "+cxmin);
-            System.out.println("xmax: "+cxmax);
-            System.out.println("xmax - xmin10: "+(cxmax - cxmin+10));
-            System.out.println("ymin: "+cymin);
-            System.out.println("ymax: "+cymax);
-            System.out.println("ymax - ymin10: "+(cymax - cymin+10));
             red = random.nextFloat();
             green = random.nextFloat();
             blue = random.nextFloat();
             col = new Color(red,green,blue);
             g.setColor(col);
-            g.drawRect((int)cxmin, (int)cymin, (int)(cxmax - cxmin+10), (int)(cymax-cymin+10));
+            g.drawRect((int)cxmin*10+10, y-(int)(cymax)*10-30, (int)(cxmax-cxmin)*10+10, (int)(cymax-cymin)*10+10);
        }
        conn.close();      
      }
