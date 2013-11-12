@@ -74,14 +74,14 @@ public class Conexion {
         }
     }
 
-    public String devolverID_con() {
+    public int devolverID_con() {
         conectar();
-        String id="";
+        int id=0;
         try {
             resultado = sentencia.executeQuery("select id_conj as i from dibujo");
             resultado.next();
             
-            id = ""+ resultado.getInt("i");
+            id = resultado.getInt("i");
             conn.close(); //Cierre de la conexión
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
