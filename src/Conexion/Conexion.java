@@ -116,7 +116,7 @@ public class Conexion
         System.out.println("Consulta finalizada.");        
     }
     
-    public void insertarIdDibujo(int id_dibujo, int id_conj, String cond_generacion, String cond_parada, float umbral)
+    public void insertarIdDibujo(int id_conj, String cond_generacion, String cond_parada, float umbral)
     {
         conectar();
         try {
@@ -124,17 +124,14 @@ public class Conexion
             
             int c=0;
             
-            resultado = sentencia.executeQuery("select count(*) as c from dibujo where id_dibujo = " + id_dibujo);
+            resultado = sentencia.executeQuery("select count(*) as c from dibujo");
             
             resultado.next();
             
-            c = resultado.getInt("c");
+            c = resultado.getInt("c")+1;
             
-            if(c==0)
-            {
-                resultado = sentencia.executeQuery("insert into dibujo values("+ id_dibujo + "," + id_conj + ", '" + cond_generacion + "', '" + cond_parada + " = " + umbral + "')");
-                resultado = sentencia.executeQuery("commit");
-            }
+            resultado = sentencia.executeQuery("insert into dibujo values("+ c + "," + id_conj + ", '" + cond_generacion + "', '" + cond_parada + " = " + umbral + "')");
+            resultado = sentencia.executeQuery("commit");
             
             //Se recorren las tuplas retornadas
 
@@ -145,14 +142,22 @@ public class Conexion
         System.out.println("Consulta finalizada.");        
     }
 
-    public void insertarCluster(int id_dibujo, float xmin, float ymin, float xmax, float ymax)
+    public void insertarCluster(float xmin, float ymin, float xmax, float ymax)
     {
+        iden = 1;
+        int id_dibujo = 0;
         conectar();
         try 
         {
             System.out.println("Ola k ase???? CLUSTERS...");
             
             int c=0;
+
+            resultado = sentencia.executeQuery("select count(*) as d from dibujo");
+            
+            resultado.next();
+            
+            id_dibujo = resultado.getInt("d");
             
             resultado = sentencia.executeQuery("select count(*) as c from clusters");
             
@@ -245,11 +250,10 @@ public class Conexion
         float[] xmax = {5,7,12};
         float[] ymax = {4,10,6};
         Punto[][] PuntosCluster = {{new Punto(2f,2f), new Punto(3f,4f), new Punto(5f,2f)},{new Punto(4f,8f), new Punto(4f,10f), new Punto(6f,8f), new Punto(7f,10f)},{new Punto(11f,4f), new Punto(12f,3f), new Punto(10f,5f), new Punto(9f,3f), new Punto(12f,6f)}};
-        con.insertarIdDibujo(id_dibujo, id_conj, gen, par, umbral);
+        con.insertarIdDibujo(id_conj, gen, par, umbral);
         for(int id_cluster = 0; id_cluster<3; id_cluster++)
         {
-            iden = 1;
-            con.insertarCluster(id_dibujo, xmin[id_cluster], ymin[id_cluster], xmax[id_cluster], ymax[id_cluster]);
+            con.insertarCluster(xmin[id_cluster], ymin[id_cluster], xmax[id_cluster], ymax[id_cluster]);
             for(int j = 0; j < PuntosCluster[id_cluster].length; j++)
             {
                 con.insertarPuntosCluster(PuntosCluster[id_cluster][j].x, PuntosCluster[id_cluster][j].y);
