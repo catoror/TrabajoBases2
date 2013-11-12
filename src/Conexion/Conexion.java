@@ -21,6 +21,7 @@ public class Conexion {
     }
 
     public void conectar() {
+        
         try { // Se carga el driver JDBC-ODBC
             Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (Exception e) {
