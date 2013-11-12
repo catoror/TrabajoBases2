@@ -6,8 +6,9 @@ package Conexion;
 import java.sql.*;
 import Punto.*;
 
-public class Conexion {
-
+public class Conexion 
+{
+    static int iden;
     Connection conn;
     Statement sentencia;
     ResultSet resultado;
@@ -112,6 +113,85 @@ public class Conexion {
         System.out.println("Consulta finalizada.");        
     }
     
+    public void insertarIdDibujo(int id_dibujo, int id_conj, String cond_generacion, String cond_parada, float umbral)
+    {
+        conectar();
+        try {
+            System.out.println("Ola k ase???? DIBUJO...");
+            
+            int c=0;
+            
+            resultado = sentencia.executeQuery("select count(*) as c from dibujo where id_dibujo = " + id_dibujo);
+            
+            resultado.next();
+            
+            c = resultado.getInt("c");
+            
+            if(c==0)
+            {
+                resultado = sentencia.executeQuery("insert into dibujo values("+ id_dibujo + "," + id_conj + ", '" + cond_generacion + "', '" + cond_generacion + " = " + umbral + "')");
+                resultado = sentencia.executeQuery("commit");
+            }
+            
+            //Se recorren las tuplas retornadas
+
+            conn.close(); //Cierre de la conexión
+        } catch (SQLException e) {
+            System.out.println("Error: "+ e.getMessage());
+        }
+        System.out.println("Consulta finalizada.");        
+    }
+
+    public void insertarCluster(int id_dibujo, float xmin, float ymin, float xmax, float ymax)
+    {
+        conectar();
+        try 
+        {
+            System.out.println("Ola k ase???? CLUSTERS...");
+            
+            int c=0;
+            
+            resultado = sentencia.executeQuery("select count(*) as c from clusters");
+            
+            resultado.next();
+            
+            c = resultado.getInt("c");
+            
+            iden = iden + c;
+            
+            resultado = sentencia.executeQuery("insert into clusters values("+ iden +","+ "(select ref(d) from dibujo d where id_dibujo= "+ id_dibujo + "), "+xmin+","+ymin+","+xmax+","+ymax+", nest_puntos())");
+            
+            resultado = sentencia.executeQuery("commit");
+            
+            //Se recorren las tuplas retornadas
+
+            conn.close(); //Cierre de la conexión
+        }
+        catch (SQLException e) 
+        {
+            System.out.println("Error: "+ e.getMessage());
+        }
+        System.out.println("Consulta finalizada.");        
+    }
+
+    public void insertarPuntosCluster(float x, float y)
+    {
+        conectar();
+        try {
+            System.out.println("Ola k ase???? PUNTOS!!!!!...");
+            
+            resultado = sentencia.executeQuery("insert into table(select puntos_cluster from clusters where id_cluster = "+ iden + ") values("+ x +","+y+")");
+            
+            resultado = sentencia.executeQuery("commit");
+            //Se recorren las tuplas retornadas
+
+            conn.close(); //Cierre de la conexión
+        } catch (SQLException e) {
+            System.out.println("Error: "+ e.getMessage());
+        }
+        System.out.println("Consulta finalizada.");        
+    }
+    
     public Punto[] getPoint()
     {
         return coordenada;
@@ -152,6 +232,25 @@ public class Conexion {
         System.out.println("Consulta finalizada.");*/
         Conexion con = new Conexion();
         
-        con.selectCoordenada(1);
+        int id_dibujo = 1;
+        int id_conj = 8;
+        String gen = "Distancia";
+        String par = "Numero_Cluster";
+        float umbral = 1.21f;
+        float[] xmin = {2,4,9};
+        float[] ymin = {2,8,3};
+        float[] xmax = {5,7,12};
+        float[] ymax = {4,10,6};
+        Punto[][] PuntosCluster = {{new Punto(2f,2f), new Punto(3f,4f), new Punto(5f,2f)},{new Punto(4f,8f), new Punto(4f,10f), new Punto(6f,8f), new Punto(7f,10f)},{new Punto(11f,4f), new Punto(12f,3f), new Punto(10f,5f), new Punto(9f,3f), new Punto(12f,6f)}};
+        con.insertarIdDibujo(id_dibujo, id_conj, gen, par, umbral);
+        for(int id_cluster = 0; id_cluster<3; id_cluster++)
+        {
+            iden = 1;
+            con.insertarCluster(id_dibujo, xmin[id_cluster], ymin[id_cluster], xmax[id_cluster], ymax[id_cluster]);
+            for(int j = 0; j < PuntosCluster[id_cluster].length; j++)
+            {
+                con.insertarPuntosCluster(PuntosCluster[id_cluster][j].x, PuntosCluster[id_cluster][j].y);
+            }            
+        }
     } //Fin del main
 }

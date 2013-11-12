@@ -18,6 +18,7 @@ import java.awt.event.MouseListener;
 import java.sql.*;
 import java.util.Random;
 
+
 public class SquaredPaper_1_1 extends JPanel {
 
     private Dimension area;
@@ -133,10 +134,10 @@ class PanelPrincipal_1 extends JPanel {
            String cond_generacion, cond_parada;
                       
            Random random = new Random();
-           float red = random.nextFloat();
-           float green = random.nextFloat();
-           float blue = random.nextFloat();
-           Color col = new Color(red,green,blue);
+           float red;
+           float green;
+           float blue;
+           Color col;
            
            while (resultado.next())
            {
