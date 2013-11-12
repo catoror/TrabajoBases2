@@ -177,8 +177,6 @@ public class InterfazCluster extends javax.swing.JDialog {
 
     private void jButtonGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerarActionPerformed
         float umbral;
-        jScrollPaneGrafica.setVisible(true);
-        jPanelGrafica.setEnabled(true);
         //Control de ingreso para los valores en los jtextfield
         if (!jTextField1.getText().isEmpty()) {
             try {
@@ -289,7 +287,7 @@ public class InterfazCluster extends javax.swing.JDialog {
         jTextFieldValorUmbral.setEditable(true);
         jTextField1.setEditable(true);
         jTextFieldNumeroCluster.setEditable(true);
-        jScrollPaneGrafica.setVisible(false);
+        jScrollPaneGrafica.setEnabled(false);
         jScrollPaneGrafica.getVerticalScrollBar().setEnabled(false);
         jScrollPaneGrafica.getHorizontalScrollBar().setEnabled(false);
 
@@ -346,6 +344,7 @@ public class InterfazCluster extends javax.swing.JDialog {
             }
             i = i + 1;
         }
+        
     }//GEN-LAST:event_jButtonGuardarActionPerformed
 
     private void jComboBoxCondicionParadaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxCondicionParadaItemStateChanged
