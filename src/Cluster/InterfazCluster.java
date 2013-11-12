@@ -18,11 +18,12 @@ public class InterfazCluster extends javax.swing.JDialog {
     public ArrayList<Punto> al;
     public Cluster c, cMenor;
     public float[] xmin, ymin, xmax, ymax;
+    public int idConjunto;
+    public int cont=0;
+    int ncluster;
 
     public InterfazCluster(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-
-
         initComponents();
         jLabelNumeroClusters.setVisible(false);
         jTextFieldNumeroCluster.setVisible(false);
@@ -176,9 +177,6 @@ public class InterfazCluster extends javax.swing.JDialog {
 
     private void jButtonGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerarActionPerformed
         float umbral;
-        int idConjunto, ncluster;
-        jScrollPaneGrafica.setVisible(true);
-        jPanelGrafica.setEnabled(true);
         //Control de ingreso para los valores en los jtextfield
         if (!jTextField1.getText().isEmpty()) {
             try {
@@ -217,8 +215,8 @@ public class InterfazCluster extends javax.swing.JDialog {
                                 ymax = new float[C.size()];
                                 llenar_xmin_xmax();
 
-//                                SquaredPaper DrawWindow = new SquaredPaper();
-//                                DrawWindow.paint(jPanelGrafica);
+                                Graficar DrawWindow = new Graficar();
+                                DrawWindow.paint(jPanelGrafica, idConjunto, xmin, xmax, ymin, ymax);
                             }
                         } catch (NumberFormatException ex) {
                             JOptionPane.showMessageDialog(this, "Ingresa por favor valores numéricos");
@@ -263,8 +261,8 @@ public class InterfazCluster extends javax.swing.JDialog {
                                 ymax = new float[C.size()];
                                 llenar_xmin_xmax();
 
-                                //SquaredPaper DrawWindow = new SquaredPaper();
-                                //DrawWindow.paint(jPanelGrafica);
+                                Graficar DrawWindow = new Graficar();
+                                DrawWindow.paint(jPanelGrafica, idConjunto, xmin, xmax, ymin, ymax);
                             }
                         } catch (NumberFormatException ex) {
                             JOptionPane.showMessageDialog(this, "Ingresa por favor valores numéricos");
@@ -289,7 +287,7 @@ public class InterfazCluster extends javax.swing.JDialog {
         jTextFieldValorUmbral.setEditable(true);
         jTextField1.setEditable(true);
         jTextFieldNumeroCluster.setEditable(true);
-        jScrollPaneGrafica.setVisible(false);
+        jScrollPaneGrafica.setEnabled(false);
         jScrollPaneGrafica.getVerticalScrollBar().setEnabled(false);
         jScrollPaneGrafica.getHorizontalScrollBar().setEnabled(false);
 
@@ -317,12 +315,36 @@ public class InterfazCluster extends javax.swing.JDialog {
     private void jPanelGraficaComponentMoved(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelGraficaComponentMoved
         // TODO add your handling code here:
 
-        SquaredPaper DrawWindow = new SquaredPaper();
-        DrawWindow.paint(jPanelGrafica);
+            Graficar DrawWindow = new Graficar();
+            DrawWindow.paint(jPanelGrafica, idConjunto, xmin, xmax, ymin, ymax);
     }//GEN-LAST:event_jPanelGraficaComponentMoved
 
     private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
         // TODO add your handling code here:
+        String cond_gen, cond_par;
+        float umb;
+        cond_gen = jComboBoxCondicionGeneracion.getSelectedItem().toString();
+        cond_par = jComboBoxCondicionParada.getSelectedItem().toString();
+        if(jTextFieldNumeroCluster.isVisible())
+        {
+            umb = Float.parseFloat(jTextFieldNumeroCluster.getText());
+        }
+        else
+        {
+            umb = Float.parseFloat(jTextFieldValorUmbral.getText());            
+        }
+        ccon.insertarIdDibujo(idConjunto, cond_gen, cond_par, umb);        
+        int i = 0;
+        for(Cluster cc:C)         
+        {
+            ccon.insertarCluster(xmin[i], xmax[i], ymin[i], ymax[i]);
+            for(Punto pp:cc.listaP)
+            {
+                ccon.insertarPuntosCluster(pp.x, pp.y);
+            }
+            i = i + 1;
+        }
+        
     }//GEN-LAST:event_jButtonGuardarActionPerformed
 
     private void jComboBoxCondicionParadaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxCondicionParadaItemStateChanged
@@ -483,7 +505,7 @@ public class InterfazCluster extends javax.swing.JDialog {
     }
 
     public void puntoCercanoKclusters(int kc) {
-        kc++;
+        
         // Iteracion Inicial donde se realizan el todo contra todos
         while (C.size() > kc) {
             pq = new PriorityQueue<Cluster>();
@@ -514,7 +536,7 @@ public class InterfazCluster extends javax.swing.JDialog {
     }
 
     public void porRadioKclusters(int kc) {
-        kc++;
+    
         // Iteracion Inicial donde se realizan el todo contra todos
         while (C.size() > kc) {
             pq = new PriorityQueue<Cluster>();
@@ -545,7 +567,7 @@ public class InterfazCluster extends javax.swing.JDialog {
     }
 
     public void porDiametroKclusters(int kc) {
-        kc++;
+        
         // Iteracion Inicial donde se realizan el todo contra todos
         while (C.size() > kc) {
             for (int i = 0; i < C.size(); i++) {
@@ -574,7 +596,7 @@ public class InterfazCluster extends javax.swing.JDialog {
     }
 
     public void porPromedioKclusters(int kc) {
-        kc++;
+        
         // Iteracion Inicial donde se realizan el todo contra todos
         while (C.size() > kc) {
             pq = new PriorityQueue<Cluster>();
