@@ -211,7 +211,11 @@ public class InterfazCluster extends javax.swing.JDialog {
                                 } else if (jComboBoxCondicionGeneracion.getSelectedIndex() == 3) {
                                     porDiametroUmbral(umbral);
                                 }
-
+                                xmin = new float[C.size()];
+                                ymin = new float[C.size()];
+                                xmax = new float[C.size()];
+                                ymax = new float[C.size()];
+                                llenar_xmin_xmax();
 
 //                                SquaredPaper DrawWindow = new SquaredPaper();
 //                                DrawWindow.paint(jPanelGrafica);
@@ -257,7 +261,7 @@ public class InterfazCluster extends javax.swing.JDialog {
                                 ymin = new float[C.size()];
                                 xmax = new float[C.size()];
                                 ymax = new float[C.size()];
-
+                                llenar_xmin_xmax();
 
                                 //SquaredPaper DrawWindow = new SquaredPaper();
                                 //DrawWindow.paint(jPanelGrafica);
