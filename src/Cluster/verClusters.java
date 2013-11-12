@@ -178,7 +178,7 @@ public class verClusters extends javax.swing.JFrame {
     private void jPanelGraficaComponentMoved(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelGraficaComponentMoved
         //jScrollPaneGrafica.getVerticalScrollBar().setValue(9990);
         SquaredPaper_1_1 DrawWindow = new SquaredPaper_1_1();
-        DrawWindow.paint(jPanelGrafica);
+      //  DrawWindow.paint(jPanelGrafica);
     }//GEN-LAST:event_jPanelGraficaComponentMoved
 
     /**
