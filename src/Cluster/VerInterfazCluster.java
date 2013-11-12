@@ -3,15 +3,17 @@ package Cluster;
 import javax.swing.JOptionPane;
 import Conexion.*;
 import Punto.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class VerInterfazCluster extends javax.swing.JDialog {
 
-    
     public Conexion ccon = new Conexion();
     public int idConjunto;
-    
 
     public VerInterfazCluster(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -30,15 +32,15 @@ public class VerInterfazCluster extends javax.swing.JDialog {
 
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextFieldCG = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jComboBoxIdDibujo = new javax.swing.JComboBox();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
         jLabelNumeroClusters = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jTextFieldValorUmbral = new javax.swing.JTextField();
-        jTextFieldNumeroCluster = new javax.swing.JTextField();
+        jTextFieldCP = new javax.swing.JTextField();
+        jTextFieldIdConP = new javax.swing.JTextField();
         jPanelBotones = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel4 = new javax.swing.JPanel();
@@ -57,27 +59,27 @@ public class VerInterfazCluster extends javax.swing.JDialog {
         jLabel1.setText("Id Dibujo");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 12, -1, -1));
 
-        jTextField1.setEditable(false);
-        jPanel2.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 258, -1));
+        jTextFieldCG.setEditable(false);
+        jPanel2.add(jTextFieldCG, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 258, -1));
 
         jLabel2.setText("Condición de Generación:");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 250, -1));
 
         jPanel2.add(jComboBoxIdDibujo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 258, -1));
         jPanel2.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 280, 20));
 
-        jLabel4.setText("Condición de Parada");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
+        jLabel4.setText("Condición de Parada:");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 260, -1));
 
         jLabelNumeroClusters.setText("Codigo conjunto de puntos");
-        jPanel2.add(jLabelNumeroClusters, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 140, -1));
+        jPanel2.add(jLabelNumeroClusters, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 250, -1));
         jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, -1));
 
-        jTextFieldValorUmbral.setEditable(false);
-        jPanel2.add(jTextFieldValorUmbral, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 260, 20));
+        jTextFieldCP.setEditable(false);
+        jPanel2.add(jTextFieldCP, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 260, 20));
 
-        jTextFieldNumeroCluster.setEditable(false);
-        jPanel2.add(jTextFieldNumeroCluster, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 260, -1));
+        jTextFieldIdConP.setEditable(false);
+        jPanel2.add(jTextFieldIdConP, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 260, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 280, 480));
 
@@ -96,6 +98,11 @@ public class VerInterfazCluster extends javax.swing.JDialog {
         jButtonVer.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonVerMouseClicked(evt);
+            }
+        });
+        jButtonVer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVerActionPerformed(evt);
             }
         });
         jPanel5.add(jButtonVer);
@@ -153,20 +160,35 @@ public class VerInterfazCluster extends javax.swing.JDialog {
     }//GEN-LAST:event_jPanelGraficaComponentMoved
 
     private void jButtonVerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonVerMouseClicked
-        Graficar DrawWindow = new Graficar();
-        DrawWindow.paint2(jPanelGrafica, 1);
+        
+            idConjunto = Integer.parseInt(jComboBoxIdDibujo.getSelectedItem().toString());
+            jScrollPaneGrafica.getVerticalScrollBar().setValue(9990);
+
+
+            jTextFieldIdConP.setText("" + ccon.devolverID_con());
+            jTextFieldCG.setText("" + ccon. devolverID_gene());
+            jTextFieldCP.setText("" + ccon. devolverID_para());
+
+
+            Graficar DrawWindow = new Graficar();
+            DrawWindow.paint2(jPanelGrafica, idConjunto);
+      
     }//GEN-LAST:event_jButtonVerMouseClicked
 
     private void jButtonSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonSalirMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonSalirMouseClicked
+
+    private void jButtonVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonVerActionPerformed
     public void agegarTododosComponentes() {
         ccon.selectIdDibuo();
         int A[] = ccon.getIdDibujo();
-        for(int f: A){
-            jComboBoxIdDibujo.addItem(""+f);
+        for (int f : A) {
+            jComboBoxIdDibujo.addItem("" + f);
         }
-        
+
     }
 
     public static void main(String args[]) {
@@ -201,8 +223,8 @@ public class VerInterfazCluster extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPaneGrafica;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextFieldNumeroCluster;
-    private javax.swing.JTextField jTextFieldValorUmbral;
+    private javax.swing.JTextField jTextFieldCG;
+    private javax.swing.JTextField jTextFieldCP;
+    private javax.swing.JTextField jTextFieldIdConP;
     // End of variables declaration//GEN-END:variables
 }
