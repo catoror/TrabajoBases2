@@ -12,11 +12,14 @@ public class Cluster extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         jLabelNumeroClusters.setVisible(false);
-        jTextFieldNumeroClusters.setVisible(false);
+        jTextFieldNumeroCluster.setVisible(false);
         jLabelValorUmbral.setVisible(false);
         jTextFieldValorUmbral.setVisible(false);
         jComboBoxCondicionGeneracion.setSelectedItem("Selecciona una opción");
         agegarTododosComponentes();
+        this.setResizable(false);
+        jComboBoxCondicionGeneracion.setSelectedIndex(0);
+      
       }
 
     @SuppressWarnings("unchecked")
@@ -32,14 +35,16 @@ public class Cluster extends javax.swing.JDialog {
         jSeparator2 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
         jLabelNumeroClusters = new javax.swing.JLabel();
-        jTextFieldNumeroClusters = new javax.swing.JTextField();
         jLabelValorUmbral = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         jTextFieldValorUmbral = new javax.swing.JTextField();
+        jTextFieldNumeroCluster = new javax.swing.JTextField();
         jPanelBotones = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel4 = new javax.swing.JPanel();
-        jButtonGenerar = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
+        jButtonGenerar = new javax.swing.JButton();
+        jButtonGuardar = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
         jScrollPaneGrafica = new javax.swing.JScrollPane();
         jPanelGrafica = new javax.swing.JPanel();
@@ -86,22 +91,11 @@ public class Cluster extends javax.swing.JDialog {
         jLabelNumeroClusters.setText("Número de clústers:");
         jPanel2.add(jLabelNumeroClusters, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 120, -1));
 
-        jTextFieldNumeroClusters.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldNumeroClustersActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jTextFieldNumeroClusters, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 180, 30, 20));
-
         jLabelValorUmbral.setText("Valor del umbral:");
-        jPanel2.add(jLabelValorUmbral, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 130, -1));
-
-        jTextFieldValorUmbral.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldValorUmbralActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jTextFieldValorUmbral, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 210, 30, 20));
+        jPanel2.add(jLabelValorUmbral, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 130, -1));
+        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, -1));
+        jPanel2.add(jTextFieldValorUmbral, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 220, 70, -1));
+        jPanel2.add(jTextFieldNumeroCluster, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 180, 70, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 280, 480));
 
@@ -113,6 +107,8 @@ public class Cluster extends javax.swing.JDialog {
 
         jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 5, 3));
 
+        jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 5, 3));
+
         jButtonGenerar.setText("Generar");
         jButtonGenerar.setPreferredSize(new java.awt.Dimension(80, 23));
         jButtonGenerar.addActionListener(new java.awt.event.ActionListener() {
@@ -120,9 +116,16 @@ public class Cluster extends javax.swing.JDialog {
                 jButtonGenerarActionPerformed(evt);
             }
         });
-        jPanel4.add(jButtonGenerar);
+        jPanel5.add(jButtonGenerar);
 
-        jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 5, 3));
+        jButtonGuardar.setText("Guardar");
+        jButtonGuardar.setPreferredSize(new java.awt.Dimension(80, 23));
+        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGuardarActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButtonGuardar);
 
         jButtonCancelar.setText("Cancelar");
         jButtonCancelar.setPreferredSize(new java.awt.Dimension(80, 23));
@@ -213,45 +216,66 @@ public class Cluster extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerarActionPerformed
-//        float ncluster, umbral;
-//        //Control de ingreso para los valores en los jtextfield
-//        try {
-//
-//            ncluster = Float.parseFloat(jTextFieldNumeroClusters.getText());
-//            umbral = Float.parseFloat(jTextFieldValorUmbral.getText());
-//            /*validar también que el número de clústers no supere  el número de puntos
-//             Acá sólo se valida que no sean ambos menor que 0*/
-//            if (ncluster < 0 || umbral < 0) {
-//                JOptionPane.showMessageDialog(this, "Debes ingesar un valor válido (mayor a 0)");
-//            }
-//        } catch (NumberFormatException ex) {
-//            JOptionPane.showMessageDialog(this, "Ingresa por favor valores numéricos enteros");
-//        }
-     
-  
-           
-//        
-//       jScrollPaneGrafica.setSize(500,500);
-//       jScrollPaneGrafica.setLayout(new ScrollPaneLayout());
-//       jScrollPaneGrafica.createHorizontalScrollBar().setEnabled(true);
-//       jScrollPaneGrafica.createVerticalScrollBar().setEnabled(true);
-//       jScrollPaneGrafica.setVisible(true);
-       //jScrollPaneGrafica.setHorizontalScrollBar(null);
-        
-        //jScrollPaneGrafica.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-//         jScrollPaneGrafica.setPreferredSize(new Dimension(490,490));
-//        jScrollPaneGrafica.getVerticalScrollBar().setValue(9000);
-        
-       jScrollPaneGrafica.getVerticalScrollBar().setValue(9990);
-       SquaredPaper DrawWindow = new SquaredPaper();
-       DrawWindow.paint(jPanelGrafica);
-              
-/*       Graphics g = jPanelGrafica.getGraphics();
-       DrawWindow.paintComponents(g);
-       DrawWindow.repaint(0, 0, 9000, 9000);*/
-//       jScrollPaneGrafica.paintComponents(g);
-//       jScrollPaneGrafica.setSize(jPanelGrafica.getSize());
-    
+        double ncluster, umbral;
+        //Control de ingreso para los valores en los jtextfield
+        if (jTextFieldValorUmbral.isVisible()==true) {      
+            if(!jTextFieldNumeroCluster.getText().isEmpty()||!jTextFieldValorUmbral.getText().isEmpty())
+            {
+            //Control de ingreso para los valores en los jtextfield para las coordenadas x y y
+            try{
+
+               umbral = Double.parseDouble(jTextFieldValorUmbral.getText());
+
+               if (umbral < 0) {
+                    JOptionPane.showMessageDialog(this, "Debes ingesar un valor válido (mayor a 0)");
+                }
+                else{
+                     SquaredPaper DrawWindow = new SquaredPaper();
+                     DrawWindow.paint(jPanelGrafica);
+                    }
+                }
+
+                    catch(NumberFormatException ex)
+                    {
+                        JOptionPane.showMessageDialog(this, "Ingresa por favor valores numéricos");
+                    }
+                   
+           }
+                else
+            {
+                JOptionPane.showMessageDialog(this, "Ingresa un valor por favor");
+            }
+        }
+        else if(jTextFieldNumeroCluster.isVisible()==true){      
+            if(!jTextFieldNumeroCluster.getText().isEmpty())
+            {
+            //Control de ingreso para los valores en los jtextfield 
+            try{
+                     ncluster = Double.parseDouble(jTextFieldNumeroCluster.getText());
+                        if (ncluster < 0) {
+                    JOptionPane.showMessageDialog(this, "Debes ingesar un valor válido (mayor a 0)");
+                }
+                else{
+                     SquaredPaper DrawWindow = new SquaredPaper();
+                     DrawWindow.paint(jPanelGrafica);
+                    }
+                }
+                    catch(NumberFormatException ex)
+                    {
+                        JOptionPane.showMessageDialog(this, "Ingresa por favor valores numéricos");
+                    }
+                }
+                else
+            {
+                JOptionPane.showMessageDialog(this, "Ingresa un valor por favor");
+            }
+        }
+
+            else
+            {   SquaredPaper DrawWindow = new SquaredPaper();
+                DrawWindow.paint(jPanelGrafica);
+            }
+    //pq dice eso?
     }//GEN-LAST:event_jButtonGenerarActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
@@ -259,22 +283,22 @@ public class Cluster extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jComboBoxCondicionGeneracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxCondicionGeneracionActionPerformed
-
-        if ((jComboBoxCondicionGeneracion.getSelectedItem().equals("Menor distancia entre clústers"))
-                || jComboBoxCondicionGeneracion.getSelectedItem().equals("Distancia promedio entre clústers"))
-        {
-            jComboBoxCondicionParada.removeAllItems();
-            agegarRadioODiametro();
-            jComboBoxCondicionParada.setEnabled(true);
-
-        } 
-        else 
-        {
-            jComboBoxCondicionParada.removeAllItems();
-            agegarTododosComponentes();
-            jComboBoxCondicionParada.setEnabled(true);
-        }
-
+//
+//        if ((jComboBoxCondicionGeneracion.getSelectedItem().equals("Menor distancia entre clústers"))
+//                || jComboBoxCondicionGeneracion.getSelectedItem().equals("Distancia promedio entre clústers"))
+//        {
+//            jComboBoxCondicionParada.removeAllItems();
+//            agegarRadioODiametro();
+//            jComboBoxCondicionParada.setEnabled(true);
+//
+//        } 
+//        else 
+//        {
+//            jComboBoxCondicionParada.removeAllItems();
+//            agegarTododosComponentes();
+//            jComboBoxCondicionParada.setEnabled(true);
+//        }
+//
 
     }//GEN-LAST:event_jComboBoxCondicionGeneracionActionPerformed
 
@@ -282,38 +306,34 @@ public class Cluster extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jTextField1ActionPerformed
 
-    private void jTextFieldNumeroClustersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNumeroClustersActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldNumeroClustersActionPerformed
-
     private void jComboBoxCondicionParadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxCondicionParadaActionPerformed
         jLabelValorUmbral.setVisible(false);
-        jTextFieldValorUmbral.setVisible(false);
+        jTextFieldNumeroCluster.setVisible(false);
         jLabelNumeroClusters.setVisible(false);
-        jTextFieldNumeroClusters.setVisible(false);
+        jTextFieldValorUmbral.setVisible(false);
         if(jComboBoxCondicionParada.getSelectedIndex()==0)
         {
             jLabelNumeroClusters.setVisible(true);
-            jTextFieldNumeroClusters.setVisible(true);
+            jTextFieldNumeroCluster.setVisible(true);
             jLabelValorUmbral.setVisible(false);
             jTextFieldValorUmbral.setVisible(false);
         }
        
-          else if(jComboBoxCondicionParada.getSelectedIndex()==4)
+          else if(jComboBoxCondicionParada.getSelectedIndex()==1||jComboBoxCondicionParada.getSelectedIndex()==2)
         {
             jLabelNumeroClusters.setVisible(false);
-            jTextFieldNumeroClusters.setVisible(false);
+            jTextFieldValorUmbral.setVisible(false);
             jLabelValorUmbral.setVisible(true);
             jTextFieldValorUmbral.setVisible(true);
         }
-            else if(jComboBoxCondicionParada.getSelectedIndex()==5)
-        {
-            jLabelNumeroClusters.setVisible(false);
-            jTextFieldNumeroClusters.setVisible(false);
-            jLabelValorUmbral.setVisible(true);
-            jTextFieldValorUmbral.setVisible(true);
-        }
-        
+//            else if(jComboBoxCondicionParada.getSelectedIndex()==4)
+//        {
+//            jLabelNumeroClusters.setVisible(false);
+//            jTextFieldNumeroCluster.setVisible(false);
+//            jLabelValorUmbral.setVisible(true);
+//            jTextFieldValorUmbral.setVisible(true);
+//        }
+//        
 //        jLabelValorUmbral.setVisible(false);
 //        jTextFieldValorUmbral.setVisible(false);
 //        jLabelNumeroClusters.setVisible(false);
@@ -338,10 +358,6 @@ public class Cluster extends javax.swing.JDialog {
 //            jTextFieldNumeroClusters.setVisible(false);
 //        }
     }//GEN-LAST:event_jComboBoxCondicionParadaActionPerformed
-
-    private void jTextFieldValorUmbralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldValorUmbralActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldValorUmbralActionPerformed
 
     private void jScrollPaneGraficaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jScrollPaneGraficaPropertyChange
     }//GEN-LAST:event_jScrollPaneGraficaPropertyChange
@@ -370,21 +386,19 @@ public class Cluster extends javax.swing.JDialog {
         DrawWindow.paint(jPanelGrafica);         
     }//GEN-LAST:event_jPanelGraficaComponentMoved
 
+    private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonGuardarActionPerformed
+
     public void agegarTododosComponentes() 
     {
         jComboBoxCondicionParada.addItem("Alcanza número de clusters especificados");
-        jComboBoxCondicionParada.addItem("Cluster inadecuado");
-        jComboBoxCondicionParada.addItem("Hasta que halla un clúster");
-        jComboBoxCondicionParada.addItem("Siguiente par de puntos mal agrupados");
         jComboBoxCondicionParada.addItem("Diámetro excede el umbral");
         jComboBoxCondicionParada.addItem("Radio excede el umbral");
     }
 
     public void agegarRadioODiametro() {
         jComboBoxCondicionParada.addItem("Alcanza número de clusters especificados");
-        jComboBoxCondicionParada.addItem("Cluster inadecuado");
-        jComboBoxCondicionParada.addItem("Hasta que halla un clúster");
-        jComboBoxCondicionParada.addItem("Siguiente par de puntos mal agrupados");
         jComboBoxCondicionParada.removeItem("Diámetro excede el umbral");
         jComboBoxCondicionParada.removeItem("Radio excede el umbral");
 
@@ -434,6 +448,7 @@ public class Cluster extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonGenerar;
+    private javax.swing.JButton jButtonGuardar;
     private javax.swing.JComboBox jComboBoxCondicionGeneracion;
     private javax.swing.JComboBox jComboBoxCondicionParada;
     private javax.swing.JLabel jLabel1;
@@ -441,6 +456,7 @@ public class Cluster extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabelNumeroClusters;
     private javax.swing.JLabel jLabelValorUmbral;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -450,7 +466,7 @@ public class Cluster extends javax.swing.JDialog {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextFieldNumeroClusters;
+    private javax.swing.JTextField jTextFieldNumeroCluster;
     private javax.swing.JTextField jTextFieldValorUmbral;
     // End of variables declaration//GEN-END:variables
 }
